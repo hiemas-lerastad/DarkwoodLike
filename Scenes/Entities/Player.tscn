@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=3 uid="uid://dktp51twu7k5j"]
+
+[ext_resource type="Texture2D" uid="uid://bb42qxb52n2mx" path="res://icon.svg" id="1_rpqav"]
+[ext_resource type="Script" uid="uid://c87nmo1xkpdds" path="res://Scripts/Entity/Humanoid/Player.gd" id="1_yoq75"]
+[ext_resource type="Script" uid="uid://bfqfq2y8pf16u" path="res://Scripts/Entity/Input/PlayerInputGatherer.gd" id="2_bhhdu"]
+[ext_resource type="Script" uid="uid://cbcl5nqjhtumy" path="res://Scripts/Entity/Context/PlayerContextGatherer.gd" id="3_megsn"]
+[ext_resource type="PackedScene" uid="uid://b75glcsy5olb7" path="res://Scenes/Entities/HumanoidEventProcessor.tscn" id="5_5ixxa"]
+[ext_resource type="Resource" uid="uid://b1iqxysq57vp3" path="res://Resources/Stats/PlayerStats.tres" id="5_nn08x"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kyqiw"]
+radius = 20.0
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("input_gatherer", "context_gatherer", "event_processor")]
+collision_layer = 6
+collision_mask = 3
+motion_mode = 1
+script = ExtResource("1_yoq75")
+input_gatherer = NodePath("Player Input Gatherer")
+context_gatherer = NodePath("Player Context Gatherer")
+event_processor = NodePath("Player Event Processor")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_rpqav")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_kyqiw")
+
+[node name="Player Input Gatherer" type="Node" parent="." node_paths=PackedStringArray("entity")]
+script = ExtResource("2_bhhdu")
+entity = NodePath("..")
+metadata/_custom_type_script = "uid://bfqfq2y8pf16u"
+
+[node name="Player Context Gatherer" type="Node2D" parent="."]
+script = ExtResource("3_megsn")
+stats = ExtResource("5_nn08x")
+metadata/_custom_type_script = "uid://cbcl5nqjhtumy"
+
+[node name="Player Event Processor" parent="." node_paths=PackedStringArray("entity") instance=ExtResource("5_5ixxa")]
+entity = NodePath("..")

@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=3 uid="uid://cyg4r2dongkol"]
+
+[ext_resource type="Script" uid="uid://mif6qj41fr61" path="res://Scripts/Entity/Humanoid/Villager.gd" id="1_ayl0o"]
+[ext_resource type="Texture2D" uid="uid://bb42qxb52n2mx" path="res://icon.svg" id="2_vaifk"]
+[ext_resource type="Script" uid="uid://d1begen6devek" path="res://Scripts/Entity/Input/VillagerInputGatherer.gd" id="3_vaifk"]
+[ext_resource type="Script" uid="uid://c7ha3xx2kgm4h" path="res://Scripts/Entity/Context/VillagerContextGatherer.gd" id="4_ayl0o"]
+[ext_resource type="Resource" uid="uid://c1jfcnl8wwr60" path="res://Resources/Stats/VillagerStats.tres" id="5_vaifk"]
+[ext_resource type="PackedScene" uid="uid://b75glcsy5olb7" path="res://Scenes/Entities/HumanoidEventProcessor.tscn" id="5_ysm2t"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kyqiw"]
+radius = 20.0
+
+[node name="Villager" type="CharacterBody2D" node_paths=PackedStringArray("input_gatherer", "context_gatherer", "event_processor")]
+collision_layer = 2
+collision_mask = 7
+motion_mode = 1
+script = ExtResource("1_ayl0o")
+input_gatherer = NodePath("Villager Input Gatherer")
+context_gatherer = NodePath("Villager Context Gatherer")
+event_processor = NodePath("Humanoid Event Processor")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_vaifk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_kyqiw")
+
+[node name="Villager Input Gatherer" type="Node" parent="." node_paths=PackedStringArray("navigation_agent", "entity")]
+script = ExtResource("3_vaifk")
+navigation_agent = NodePath("../NavigationAgent2D")
+entity = NodePath("..")
+metadata/_custom_type_script = "uid://d1begen6devek"
+
+[node name="Villager Context Gatherer" type="Node2D" parent="."]
+script = ExtResource("4_ayl0o")
+stats = ExtResource("5_vaifk")
+metadata/_custom_type_script = "uid://c7ha3xx2kgm4h"
+
+[node name="Humanoid Event Processor" parent="." node_paths=PackedStringArray("entity") instance=ExtResource("5_ysm2t")]
+entity = NodePath("..")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 0.1
+path_max_distance = 20.0
+navigation_layers = 2
+debug_enabled = true

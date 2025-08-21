@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=3 uid="uid://bmp5agcc3np5c"]
+
+[ext_resource type="Script" uid="uid://cr3vjt27y3vyg" path="res://Scripts/UI/Inventory/InventoryContainer.gd" id="1_g0uv5"]
+[ext_resource type="PackedScene" uid="uid://5aty3rf7mea7" path="res://Scenes/Inventory/SlotBase.tscn" id="3_o4q06"]
+[ext_resource type="PackedScene" uid="uid://b3yw5lddn6ji" path="res://Scenes/Inventory/ItemBase.tscn" id="4_5os0n"]
+
+[node name="Inventory" type="Control" node_paths=PackedStringArray("slot_container")]
+process_mode = 2
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+script = ExtResource("1_g0uv5")
+slot_scene = ExtResource("3_o4q06")
+slot_container = NodePath("Margin Container/Margin Container/Grid Container")
+item_scene = ExtResource("4_5os0n")
+
+[node name="Margin Container" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Color Rect" type="ColorRect" parent="Margin Container"]
+layout_mode = 2
+mouse_filter = 1
+color = Color(1, 1, 1, 0.592157)
+
+[node name="Margin Container" type="MarginContainer" parent="Margin Container"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Grid Container" type="GridContainer" parent="Margin Container/Margin Container"]
+layout_mode = 2
+theme_override_constants/h_separation = 64
+theme_override_constants/v_separation = 64
+columns = 5

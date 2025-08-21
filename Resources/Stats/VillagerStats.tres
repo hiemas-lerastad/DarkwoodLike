@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="EnemyStats" load_steps=2 format=3 uid="uid://c1jfcnl8wwr60"]
+
+[ext_resource type="Script" uid="uid://ciohw0n444tql" path="res://Scripts/Entity/Stats/HumanoidStats.gd" id="1_ll6ms"]
+
+[resource]
+script = ExtResource("1_ll6ms")
+max_health = 10.0
+health = 10.0
+move_speed = 20.0
+turn_speed = 5.0
+metadata/_custom_type_script = "uid://ciohw0n444tql"

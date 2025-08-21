@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3yw5lddn6ji"]
+
+[ext_resource type="Script" uid="uid://bsbemj5cca3kl" path="res://Scripts/UI/Inventory/Item.gd" id="1_glfqf"]
+[ext_resource type="Shape2D" uid="uid://pfv27vwf8krr" path="res://Resources/Inventory/new_rectangle_shape_2d.tres" id="2_glfqf"]
+
+[node name="Item Base" type="Control" node_paths=PackedStringArray("area")]
+z_index = 1
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("1_glfqf")
+area = NodePath("Click Area")
+grid_items = Array[Vector2i]([Vector2i(0, 0), Vector2i(1, 0)])
+collision_block = ExtResource("2_glfqf")
+
+[node name="Click Area" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 0
+
+[connection signal="mouse_entered" from="Click Area" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Click Area" to="." method="_on_area_2d_mouse_exited"]

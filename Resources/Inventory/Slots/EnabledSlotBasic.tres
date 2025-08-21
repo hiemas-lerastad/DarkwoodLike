@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="SlotData" load_steps=2 format=3 uid="uid://ca6ecbi2lxeu3"]
+
+[ext_resource type="Script" uid="uid://bpho1vnu4edmx" path="res://Scripts/UI/Inventory/Data/SlotData.gd" id="1_c6ao8"]
+
+[resource]
+script = ExtResource("1_c6ao8")
+disabled = false
+visuals_disabled = false

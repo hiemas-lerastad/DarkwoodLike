@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PlayerStats" load_steps=2 format=3 uid="uid://b1iqxysq57vp3"]
+
+[ext_resource type="Script" uid="uid://cbfyw5csp4nmk" path="res://Scripts/Entity/Stats/PlayerStats.gd" id="1_se3ls"]
+
+[resource]
+script = ExtResource("1_se3ls")
+max_health = 10.0
+health = 10.0
+max_stamina = 10.0
+stamina = 10.0
+move_speed = 30.0
+turn_speed = 5.0
+metadata/_custom_type_script = "uid://cbfyw5csp4nmk"

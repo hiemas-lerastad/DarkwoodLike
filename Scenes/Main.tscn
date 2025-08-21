@@ -1,0 +1,115 @@
+[gd_scene load_steps=13 format=3 uid="uid://22tipdjflekw"]
+
+[ext_resource type="Script" uid="uid://cra383otvrl10" path="res://Scripts/GameManager.gd" id="1_kln2b"]
+[ext_resource type="PackedScene" uid="uid://dktp51twu7k5j" path="res://Scenes/Entities/Player.tscn" id="1_r150o"]
+[ext_resource type="PackedScene" uid="uid://cyg4r2dongkol" path="res://Scenes/Entities/Villager.tscn" id="2_idj7w"]
+[ext_resource type="Script" uid="uid://bwf31dl5fvg5g" path="res://Scripts/UI/UIManager.gd" id="3_kln2b"]
+[ext_resource type="Script" uid="uid://bk2eymukefv5d" path="res://Scripts/UI/Inventory/InventoryManager.gd" id="5_pbw6q"]
+[ext_resource type="PackedScene" uid="uid://bmp5agcc3np5c" path="res://Scenes/Inventory/ContainerBase.tscn" id="6_50glp"]
+[ext_resource type="Resource" uid="uid://bhes16w5jaqrv" path="res://Resources/Inventory/Containers/PlayerInventory.tres" id="6_jw32o"]
+[ext_resource type="Resource" uid="uid://cnuxeg1s5cdrl" path="res://Resources/Inventory/Containers/Chest.tres" id="6_v1gob"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_r150o"]
+frequency = 0.0888
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_idj7w"]
+noise = SubResource("FastNoiseLite_r150o")
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_idj7w"]
+vertices = PackedVector2Array(539, 436, 1129.96, 629.93, 18.0625, 626.063, 459, 436, 19.9297, 21.0313, 459, 96, 1129.03, 22.9609, 539, 96)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(3, 2, 4, 5), PackedInt32Array(5, 4, 6, 7), PackedInt32Array(6, 1, 0, 7)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(0, 1, 1149, 3, 1150, 650, -2, 646)])
+agent_radius = 20.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kln2b"]
+size = Vector2(40, 300)
+
+[node name="Game" type="Node" node_paths=PackedStringArray("main", "ui")]
+process_mode = 3
+script = ExtResource("1_kln2b")
+main = NodePath("Main")
+ui = NodePath("UI")
+
+[node name="Main" type="CanvasLayer" parent="."]
+process_mode = 1
+follow_viewport_enabled = true
+
+[node name="TextureRect" type="TextureRect" parent="Main"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("NoiseTexture2D_idj7w")
+stretch_mode = 1
+
+[node name="Player" parent="Main" instance=ExtResource("1_r150o")]
+position = Vector2(415, 214)
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Main/Player"]
+remote_path = NodePath("../../Camera Wrapper")
+update_rotation = false
+update_scale = false
+
+[node name="Camera Wrapper" type="Node2D" parent="Main"]
+position = Vector2(415, 214)
+
+[node name="Camera" type="Camera2D" parent="Main/Camera Wrapper"]
+zoom = Vector2(2, 2)
+
+[node name="Villager" parent="Main" node_paths=PackedStringArray("look_target", "move_target") instance=ExtResource("2_idj7w")]
+position = Vector2(572, 278)
+look_target = NodePath("../Player")
+move_target = NodePath("../Player")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Main"]
+navigation_polygon = SubResource("NavigationPolygon_idj7w")
+navigation_layers = 2
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Main/NavigationRegion2D"]
+position = Vector2(499, 266)
+
+[node name="ColorRect" type="ColorRect" parent="Main/NavigationRegion2D/StaticBody2D"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -150.0
+offset_right = 20.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Main/NavigationRegion2D/StaticBody2D"]
+shape = SubResource("RectangleShape2D_kln2b")
+
+[node name="UI" type="CanvasLayer" parent="." node_paths=PackedStringArray("inventory", "test_container")]
+process_mode = 3
+script = ExtResource("3_kln2b")
+inventory = NodePath("Inventory Manager/Inventory")
+test_container = NodePath("Inventory Manager/Inventory2")
+
+[node name="Inventory Manager" type="HBoxContainer" parent="UI" node_paths=PackedStringArray("containers")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+script = ExtResource("5_pbw6q")
+containers = [NodePath("Inventory"), NodePath("Inventory2")]
+
+[node name="Inventory" parent="UI/Inventory Manager" instance=ExtResource("6_50glp")]
+layout_mode = 2
+data = ExtResource("6_jw32o")
+
+[node name="Inventory2" parent="UI/Inventory Manager" instance=ExtResource("6_50glp")]
+layout_mode = 2
+data = ExtResource("6_v1gob")
