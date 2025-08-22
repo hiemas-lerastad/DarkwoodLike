@@ -1,13 +1,15 @@
-[gd_scene load_steps=13 format=3 uid="uid://22tipdjflekw"]
+[gd_scene load_steps=15 format=3 uid="uid://22tipdjflekw"]
 
 [ext_resource type="Script" uid="uid://cra383otvrl10" path="res://Scripts/GameManager.gd" id="1_kln2b"]
 [ext_resource type="PackedScene" uid="uid://dktp51twu7k5j" path="res://Scenes/Entities/Player.tscn" id="1_r150o"]
 [ext_resource type="PackedScene" uid="uid://cyg4r2dongkol" path="res://Scenes/Entities/Villager.tscn" id="2_idj7w"]
 [ext_resource type="Script" uid="uid://bwf31dl5fvg5g" path="res://Scripts/UI/UIManager.gd" id="3_kln2b"]
+[ext_resource type="PackedScene" uid="uid://cakfis3cgaykk" path="res://Scenes/Interactables/Container.tscn" id="5_bmxlf"]
 [ext_resource type="Script" uid="uid://bk2eymukefv5d" path="res://Scripts/UI/Inventory/InventoryManager.gd" id="5_pbw6q"]
 [ext_resource type="PackedScene" uid="uid://bmp5agcc3np5c" path="res://Scenes/Inventory/ContainerBase.tscn" id="6_50glp"]
 [ext_resource type="Resource" uid="uid://bhes16w5jaqrv" path="res://Resources/Inventory/Containers/PlayerInventory.tres" id="6_jw32o"]
 [ext_resource type="Resource" uid="uid://cnuxeg1s5cdrl" path="res://Resources/Inventory/Containers/Chest.tres" id="6_v1gob"]
+[ext_resource type="Texture2D" uid="uid://bb42qxb52n2mx" path="res://icon.svg" id="10_bmxlf"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_r150o"]
 frequency = 0.0888
@@ -24,10 +26,11 @@ agent_radius = 20.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kln2b"]
 size = Vector2(40, 300)
 
-[node name="Game" type="Node" node_paths=PackedStringArray("main", "ui")]
+[node name="Game" type="Node" node_paths=PackedStringArray("main", "player", "ui")]
 process_mode = 3
 script = ExtResource("1_kln2b")
 main = NodePath("Main")
+player = NodePath("Main/Player")
 ui = NodePath("UI")
 
 [node name="Main" type="CanvasLayer" parent="."]
@@ -60,10 +63,8 @@ position = Vector2(415, 214)
 [node name="Camera" type="Camera2D" parent="Main/Camera Wrapper"]
 zoom = Vector2(2, 2)
 
-[node name="Villager" parent="Main" node_paths=PackedStringArray("look_target", "move_target") instance=ExtResource("2_idj7w")]
+[node name="Villager" parent="Main" instance=ExtResource("2_idj7w")]
 position = Vector2(572, 278)
-look_target = NodePath("../Player")
-move_target = NodePath("../Player")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Main"]
 navigation_polygon = SubResource("NavigationPolygon_idj7w")
@@ -88,11 +89,21 @@ grow_vertical = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Main/NavigationRegion2D/StaticBody2D"]
 shape = SubResource("RectangleShape2D_kln2b")
 
-[node name="UI" type="CanvasLayer" parent="." node_paths=PackedStringArray("inventory", "test_container")]
+[node name="Container" parent="Main" node_paths=PackedStringArray("player") instance=ExtResource("5_bmxlf")]
+position = Vector2(338, 301)
+id = "test_01"
+data = ExtResource("6_v1gob")
+player = NodePath("../Player")
+max_range = 60.0
+
+[node name="UI" type="CanvasLayer" parent="." node_paths=PackedStringArray("inventory", "inventory_manager", "cursor", "cursor_container")]
 process_mode = 3
 script = ExtResource("3_kln2b")
 inventory = NodePath("Inventory Manager/Inventory")
-test_container = NodePath("Inventory Manager/Inventory2")
+container_scene = ExtResource("6_50glp")
+inventory_manager = NodePath("Inventory Manager")
+cursor = NodePath("Cursor Container/Cursor")
+cursor_container = NodePath("Cursor Container")
 
 [node name="Inventory Manager" type="HBoxContainer" parent="UI" node_paths=PackedStringArray("containers")]
 anchors_preset = 15
@@ -104,12 +115,15 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 script = ExtResource("5_pbw6q")
-containers = [NodePath("Inventory"), NodePath("Inventory2")]
+containers = [NodePath("Inventory")]
 
 [node name="Inventory" parent="UI/Inventory Manager" instance=ExtResource("6_50glp")]
 layout_mode = 2
 data = ExtResource("6_jw32o")
 
-[node name="Inventory2" parent="UI/Inventory Manager" instance=ExtResource("6_50glp")]
-layout_mode = 2
-data = ExtResource("6_v1gob")
+[node name="Cursor Container" type="Node2D" parent="UI"]
+z_index = 10
+
+[node name="Cursor" type="Sprite2D" parent="UI/Cursor Container"]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("10_bmxlf")

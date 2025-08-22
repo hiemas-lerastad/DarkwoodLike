@@ -1,19 +1,20 @@
 [gd_resource type="Resource" script_class="InventoryData" load_steps=7 format=3 uid="uid://bhes16w5jaqrv"]
 
-[ext_resource type="Script" uid="uid://cilt5cxp8u1w1" path="res://Scripts/UI/Inventory/Data/ItemData.gd" id="1_x75yo"]
-[ext_resource type="Script" uid="uid://pysd4vlq7rr3" path="res://Scripts/UI/Inventory/Data/InventoryData.gd" id="2_7cx7v"]
-[ext_resource type="Script" uid="uid://bpho1vnu4edmx" path="res://Scripts/UI/Inventory/Data/SlotData.gd" id="3_exklg"]
-[ext_resource type="Resource" uid="uid://cwqujrnv2nfe0" path="res://Resources/Inventory/Slots/DisabledSlotBasic.tres" id="4_exklg"]
-[ext_resource type="Resource" uid="uid://ca6ecbi2lxeu3" path="res://Resources/Inventory/Slots/EnabledSlotBasic.tres" id="5_t0sse"]
+[ext_resource type="Script" uid="uid://cilt5cxp8u1w1" path="res://Scripts/UI/Inventory/Data/ItemData.gd" id="1_c7c2o"]
+[ext_resource type="Script" uid="uid://pysd4vlq7rr3" path="res://Scripts/UI/Inventory/Data/InventoryData.gd" id="2_jkdf0"]
+[ext_resource type="Script" uid="uid://bpho1vnu4edmx" path="res://Scripts/UI/Inventory/Data/SlotData.gd" id="3_okh32"]
+[ext_resource type="Resource" uid="uid://cwqujrnv2nfe0" path="res://Resources/Inventory/Slots/DisabledSlotBasic.tres" id="4_3m31f"]
+[ext_resource type="Resource" uid="uid://ca6ecbi2lxeu3" path="res://Resources/Inventory/Slots/EnabledSlotBasic.tres" id="5_3pcvn"]
 
 [sub_resource type="Resource" id="Resource_exklg"]
-script = ExtResource("1_x75yo")
+script = ExtResource("1_c7c2o")
 grid_items = Array[Vector2i]([Vector2i(0, 0), Vector2i(0, 1), Vector2i(0, -1), Vector2i(1, 1), Vector2i(1, -1)])
 slot = 32
 metadata/_custom_type_script = "uid://cilt5cxp8u1w1"
 
 [resource]
-script = ExtResource("2_7cx7v")
+script = ExtResource("2_jkdf0")
 grid_size = Vector2(7, 8)
-slot_data = Array[ExtResource("3_exklg")]([ExtResource("4_exklg"), ExtResource("4_exklg"), ExtResource("4_exklg"), ExtResource("4_exklg"), ExtResource("4_exklg"), ExtResource("4_exklg"), ExtResource("4_exklg"), ExtResource("4_exklg"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("4_exklg"), ExtResource("4_exklg"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("4_exklg"), ExtResource("4_exklg"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("4_exklg"), ExtResource("4_exklg"), ExtResource("4_exklg"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("4_exklg"), ExtResource("4_exklg"), ExtResource("4_exklg"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("4_exklg"), ExtResource("4_exklg"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("5_t0sse"), ExtResource("4_exklg"), ExtResource("4_exklg"), ExtResource("4_exklg"), ExtResource("4_exklg"), ExtResource("4_exklg"), ExtResource("4_exklg"), ExtResource("4_exklg"), ExtResource("4_exklg")])
-item_data = Array[ExtResource("1_x75yo")]([SubResource("Resource_exklg")])
+offset = Vector2(-1, -1)
+slot_data = Array[ExtResource("3_okh32")]([ExtResource("4_3m31f"), ExtResource("4_3m31f"), ExtResource("4_3m31f"), ExtResource("4_3m31f"), ExtResource("4_3m31f"), ExtResource("4_3m31f"), ExtResource("4_3m31f"), ExtResource("4_3m31f"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("4_3m31f"), ExtResource("4_3m31f"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("4_3m31f"), ExtResource("4_3m31f"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("4_3m31f"), ExtResource("4_3m31f"), ExtResource("4_3m31f"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("4_3m31f"), ExtResource("4_3m31f"), ExtResource("4_3m31f"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("4_3m31f"), ExtResource("4_3m31f"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("5_3pcvn"), ExtResource("4_3m31f"), ExtResource("4_3m31f"), ExtResource("4_3m31f"), ExtResource("4_3m31f"), ExtResource("4_3m31f"), ExtResource("4_3m31f"), ExtResource("4_3m31f"), ExtResource("4_3m31f")])
+item_data = Array[ExtResource("1_c7c2o")]([SubResource("Resource_exklg")])

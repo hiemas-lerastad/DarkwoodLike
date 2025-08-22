@@ -11,6 +11,7 @@ signal item_placed;
 @export_group("Constants")
 @export var slot_scene: PackedScene;
 @export var slot_container: GridContainer;
+@export var offset_container: MarginContainer;
 @export var item_scene: PackedScene;
 @export var cell_size: Vector2 = Vector2(64.0, 64.0);
 
@@ -23,8 +24,16 @@ var can_place: bool = false;
 var initialised: bool = false;
 var items: Array[Item];
 var slots: Array[Node];
+var id: String;
+var offset: Vector2;
+
 
 func _load_data() -> void:
+	offset = data.offset;
+	
+	offset_container.add_theme_constant_override("margin_left", int((offset * cell_size).x));
+	offset_container.add_theme_constant_override("margin_top", int((offset * cell_size).y));
+
 	for slot_index in data.slot_data.size():
 		var slot_data: SlotData = data.slot_data[slot_index];
 		var new_slot: InventorySlot = slot_scene.instantiate();
@@ -60,18 +69,6 @@ func _ready() -> void:
 	slot_container.columns = grid_size.x;
 
 
-func create_slot(index: int) -> InventorySlot:
-	var new_slot: InventorySlot = slot_scene.instantiate();
-	new_slot.id = index;
-	slot_container.add_child(new_slot);
-	new_slot.owner = self;
-
-	new_slot.slot_entered.connect(_on_slot_mouse_entered);
-	new_slot.slot_exited.connect(_on_slot_mouse_exited);
-
-	return new_slot;
-
-
 func _on_item_mouse_entered(item: Item) -> void:
 	if hovered_item != item:
 		hovered_item = item;
@@ -84,15 +81,9 @@ func _on_item_mouse_exited(item: Item) -> void:
 
 func _on_slot_mouse_entered(slot: InventorySlot) -> void:
 	if current_slot != slot:
-		if current_slot:
-			current_slot.visual.color = Color(0.0, 0.0, 0.0, 0.5);
-
 		current_slot = slot;
 
-	if not held_item:
-		slot.visual.color = Color(0.0, 0.0, 0.0, 1.0);
-
-	else:
+	if held_item:
 		can_place = validate_placement(slot);
 
 
@@ -213,3 +204,24 @@ func set_state(new_state: Definitions.UI_STATE) -> void:
 
 		Definitions.UI_STATE.CLOSED:
 			visible = false;
+
+
+func update_data() -> InventoryData:
+	var new_data: InventoryData = InventoryData.new();
+	new_data.grid_size = grid_size;
+
+	for slot in grid_data.values:
+		var slot_data: SlotData = SlotData.new();
+		slot_data.disabled = slot.disable;
+		slot_data.visuals_disabled = slot.disable_visuals;
+		new_data.slot_data.append(slot_data);
+
+	for item in items:
+		var item_data: ItemData = ItemData.new();
+		item_data.slot = item.anchor_slot.id;
+		item_data.grid_items = item.grid_items;
+		new_data.item_data.append(item_data);
+
+	data = new_data;
+
+	return new_data;

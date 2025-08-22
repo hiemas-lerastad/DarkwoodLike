@@ -5,6 +5,8 @@ extends Control;
 
 var held_item: Item;
 
+signal close_container;
+
 func _ready() -> void:
 	for container in containers:
 		initialise_container(container);
@@ -13,6 +15,17 @@ func _ready() -> void:
 func initialise_container(container: InventoryContainer) -> void:
 	container.connect('item_held', _on_item_held);
 	container.connect('item_placed', _on_item_placed);
+
+
+func remove_container(container: InventoryContainer) -> void:
+	var new_data: InventoryData = container.update_data();
+	var id: String = container.id;
+
+	containers.remove_at(containers.find(container));
+	container.disconnect('item_held', _on_item_held);
+	container.disconnect('item_placed', _on_item_placed);
+
+	close_container.emit(new_data, id);
 
 
 func _on_item_held(item: Item) -> void:

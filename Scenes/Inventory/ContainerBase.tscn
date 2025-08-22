@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://5aty3rf7mea7" path="res://Scenes/Inventory/SlotBase.tscn" id="3_o4q06"]
 [ext_resource type="PackedScene" uid="uid://b3yw5lddn6ji" path="res://Scenes/Inventory/ItemBase.tscn" id="4_5os0n"]
 
-[node name="Inventory" type="Control" node_paths=PackedStringArray("slot_container")]
+[node name="Inventory" type="Control" node_paths=PackedStringArray("slot_container", "offset_container")]
 process_mode = 2
 visible = false
 layout_mode = 3
@@ -17,7 +17,8 @@ size_flags_horizontal = 3
 mouse_filter = 1
 script = ExtResource("1_g0uv5")
 slot_scene = ExtResource("3_o4q06")
-slot_container = NodePath("Margin Container/Margin Container/Grid Container")
+slot_container = NodePath("Margin Container/Margin Container/Margin Container/Grid Container")
+offset_container = NodePath("Margin Container/Margin Container/Margin Container")
 item_scene = ExtResource("4_5os0n")
 
 [node name="Margin Container" type="MarginContainer" parent="."]
@@ -44,7 +45,12 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Grid Container" type="GridContainer" parent="Margin Container/Margin Container"]
+[node name="Margin Container" type="MarginContainer" parent="Margin Container/Margin Container"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+
+[node name="Grid Container" type="GridContainer" parent="Margin Container/Margin Container/Margin Container"]
 layout_mode = 2
 theme_override_constants/h_separation = 64
 theme_override_constants/v_separation = 64

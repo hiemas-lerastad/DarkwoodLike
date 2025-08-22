@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://djsgpqse0504n"]
+
+[ext_resource type="Script" uid="uid://bdpisjtkyq833" path="res://Scripts/Interactable.gd" id="1_pi15k"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5d17x"]
+radius = 22.0
+
+[node name="Interactable" type="Node2D" node_paths=PackedStringArray("area") groups=["Interactable"]]
+script = ExtResource("1_pi15k")
+area = NodePath("Area2D")
+max_range = 10.0
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_5d17x")
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_mouse_exited"]
