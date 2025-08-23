@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dye3iuwgkpbfo"]
+
+[ext_resource type="Shader" uid="uid://wh0ft308bcos" path="res://Assets/Shaders/FogOfWarOutput.gdshader" id="1_vb788"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_vb788")
+shader_parameter/scale = Vector2(1, 1)

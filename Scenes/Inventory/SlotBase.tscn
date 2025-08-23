@@ -3,14 +3,13 @@
 [ext_resource type="Script" uid="uid://b4owbk4k8xqyn" path="res://Scripts/UI/Inventory/InventorySlot.gd" id="1_31ikd"]
 [ext_resource type="Shape2D" uid="uid://pfv27vwf8krr" path="res://Resources/Inventory/new_rectangle_shape_2d.tres" id="2_6ir82"]
 
-[node name="Inventory Slot" type="Control" node_paths=PackedStringArray("visual", "area")]
+[node name="Inventory Slot" type="Control" node_paths=PackedStringArray("area")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 64.0
 offset_bottom = 64.0
 mouse_filter = 2
 script = ExtResource("1_31ikd")
-visual = NodePath("")
 area = NodePath("Area 2D")
 collision_block = ExtResource("2_6ir82")
 

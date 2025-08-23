@@ -32,5 +32,6 @@ metadata/_custom_type_script = "uid://cilt5cxp8u1w1"
 [resource]
 script = ExtResource("2_oyrp5")
 grid_size = Vector2(4, 3)
+offset = Vector2(0, 0)
 slot_data = Array[ExtResource("3_ul7yn")]([ExtResource("4_x2cln"), ExtResource("4_x2cln"), ExtResource("4_x2cln"), ExtResource("4_x2cln"), ExtResource("4_x2cln"), ExtResource("4_x2cln"), ExtResource("4_x2cln"), ExtResource("4_x2cln"), ExtResource("4_x2cln"), ExtResource("4_x2cln"), ExtResource("4_x2cln"), ExtResource("4_x2cln")])
 item_data = Array[ExtResource("1_jfu0n")]([SubResource("Resource_exklg"), SubResource("Resource_jfu0n"), SubResource("Resource_oyrp5"), SubResource("Resource_ul7yn")])

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://22tipdjflekw"]
+[gd_scene load_steps=24 format=3 uid="uid://22tipdjflekw"]
 
 [ext_resource type="Script" uid="uid://cra383otvrl10" path="res://Scripts/GameManager.gd" id="1_kln2b"]
 [ext_resource type="PackedScene" uid="uid://dktp51twu7k5j" path="res://Scenes/Entities/Player.tscn" id="1_r150o"]
@@ -6,16 +6,64 @@
 [ext_resource type="Script" uid="uid://bwf31dl5fvg5g" path="res://Scripts/UI/UIManager.gd" id="3_kln2b"]
 [ext_resource type="PackedScene" uid="uid://cakfis3cgaykk" path="res://Scenes/Interactables/Container.tscn" id="5_bmxlf"]
 [ext_resource type="Script" uid="uid://bk2eymukefv5d" path="res://Scripts/UI/Inventory/InventoryManager.gd" id="5_pbw6q"]
+[ext_resource type="Script" uid="uid://wk1g84wqsnqs" path="res://Scripts/Vision.gd" id="6_4kpch"]
 [ext_resource type="PackedScene" uid="uid://bmp5agcc3np5c" path="res://Scenes/Inventory/ContainerBase.tscn" id="6_50glp"]
 [ext_resource type="Resource" uid="uid://bhes16w5jaqrv" path="res://Resources/Inventory/Containers/PlayerInventory.tres" id="6_jw32o"]
 [ext_resource type="Resource" uid="uid://cnuxeg1s5cdrl" path="res://Resources/Inventory/Containers/Chest.tres" id="6_v1gob"]
+[ext_resource type="Shader" uid="uid://wh0ft308bcos" path="res://Assets/Shaders/FogOfWarOutput.gdshader" id="8_frkhe"]
 [ext_resource type="Texture2D" uid="uid://bb42qxb52n2mx" path="res://icon.svg" id="10_bmxlf"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_r150o"]
-frequency = 0.0888
+[sub_resource type="ViewportTexture" id="ViewportTexture_frkhe"]
+viewport_path = NodePath("Main/Background/SubViewport")
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_idj7w"]
-noise = SubResource("FastNoiseLite_r150o")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1p5hy"]
+resource_local_to_scene = true
+shader = ExtResource("8_frkhe")
+shader_parameter/ALBEDO_TEXTURE = SubResource("ViewportTexture_frkhe")
+shader_parameter/scale = Vector2(1, 1)
+
+[sub_resource type="Gradient" id="Gradient_bmxlf"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.302469, 0.685185)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4kpch"]
+gradient = SubResource("Gradient_bmxlf")
+width = 1000
+height = 1000
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Shader" id="Shader_grg3l"]
+code = "shader_type canvas_item;
+
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture;
+
+//void light() {
+    //if (LIGHT_COLOR == vec4(1) && LIGHT_ENERGY >= 1.0) {
+        //LIGHT = texture(SCREEN_TEXTURE, SCREEN_UV);
+		////discard;
+    //} else {
+        ////LIGHT.rgba = texture(SCREEN_TEXTURE, SCREEN_UV);
+    //}
+//}
+
+void light() {
+	SHADOW_MODULATE = texture(SCREEN_TEXTURE, SCREEN_UV);
+    if (LIGHT.r >= 0.0 && LIGHT_COLOR == vec4(1.0)) {
+        LIGHT = texture(SCREEN_TEXTURE, SCREEN_UV);
+		LIGHT = vec4(1.0);
+		//discard;
+    } else {
+        //LIGHT.rgba = texture(SCREEN_TEXTURE, SCREEN_UV);
+    }
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_frkhe"]
+shader = SubResource("Shader_grg3l")
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_grg3l"]
+polygon = PackedVector2Array(0, 0, 40, 0, 40, 300, 0, 300, 0, 0)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_idj7w"]
 vertices = PackedVector2Array(539, 436, 1129.96, 629.93, 18.0625, 626.063, 459, 436, 19.9297, 21.0313, 459, 96, 1129.03, 22.9609, 539, 96)
@@ -26,51 +74,101 @@ agent_radius = 20.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kln2b"]
 size = Vector2(40, 300)
 
+[sub_resource type="Gradient" id="Gradient_frkhe"]
+offsets = PackedFloat32Array(0, 0.580247)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1p5hy"]
+gradient = SubResource("Gradient_frkhe")
+width = 1000
+height = 1000
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [node name="Game" type="Node" node_paths=PackedStringArray("main", "player", "ui")]
 process_mode = 3
 script = ExtResource("1_kln2b")
 main = NodePath("Main")
-player = NodePath("Main/Player")
+player = NodePath("Main/Unoccluded/Player")
 ui = NodePath("UI")
 
 [node name="Main" type="CanvasLayer" parent="."]
 process_mode = 1
+layer = 0
 follow_viewport_enabled = true
 
-[node name="TextureRect" type="TextureRect" parent="Main"]
-visible = false
+[node name="Background" type="SubViewportContainer" parent="Main"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SubViewport" type="SubViewport" parent="Main/Background"]
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="TextureRect" type="TextureRect" parent="Main/Background/SubViewport"]
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("10_bmxlf")
+
+[node name="ColorRect" type="ColorRect" parent="Main/Background/SubViewport"]
+offset_left = 382.0
+offset_top = 93.0
+offset_right = 422.0
+offset_bottom = 133.0
+
+[node name="Occluded" type="Node2D" parent="Main"]
+
+[node name="Villager" parent="Main/Occluded" instance=ExtResource("2_idj7w")]
+light_mask = 2
+position = Vector2(559, 167)
+
+[node name="Visibility" type="SubViewportContainer" parent="Main"]
+material = SubResource("ShaderMaterial_1p5hy")
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="SubViewport" type="SubViewport" parent="Main/Visibility"]
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Vision Container" type="Node2D" parent="Main/Visibility/SubViewport" node_paths=PackedStringArray("player")]
+position = Vector2(403, 278)
+script = ExtResource("6_4kpch")
+player = NodePath("../../../Unoccluded/Player")
+
+[node name="Vision" type="PointLight2D" parent="Main/Visibility/SubViewport/Vision Container"]
+range_item_cull_mask = 2
+shadow_enabled = true
+shadow_item_cull_mask = 7
+texture = SubResource("GradientTexture2D_4kpch")
+texture_scale = 0.3
+
+[node name="Base" type="ColorRect" parent="Main/Visibility/SubViewport"]
+light_mask = 2
+material = SubResource("ShaderMaterial_frkhe")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = SubResource("NoiseTexture2D_idj7w")
-stretch_mode = 1
+color = Color(0, 0, 0, 1)
 
-[node name="Player" parent="Main" instance=ExtResource("1_r150o")]
-position = Vector2(415, 214)
+[node name="Occluders" type="Node2D" parent="Main/Visibility/SubViewport"]
 
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Main/Player"]
-remote_path = NodePath("../../Camera Wrapper")
-update_rotation = false
-update_scale = false
-
-[node name="Camera Wrapper" type="Node2D" parent="Main"]
-position = Vector2(415, 214)
-
-[node name="Camera" type="Camera2D" parent="Main/Camera Wrapper"]
-zoom = Vector2(2, 2)
-
-[node name="Villager" parent="Main" instance=ExtResource("2_idj7w")]
-position = Vector2(572, 278)
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Main/Visibility/SubViewport/Occluders"]
+light_mask = 3
+y_sort_enabled = true
+position = Vector2(479, 116)
+occluder = SubResource("OccluderPolygon2D_grg3l")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Main"]
 navigation_polygon = SubResource("NavigationPolygon_idj7w")
 navigation_layers = 2
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Main/NavigationRegion2D"]
+light_mask = 3
 position = Vector2(499, 266)
 
 [node name="ColorRect" type="ColorRect" parent="Main/NavigationRegion2D/StaticBody2D"]
@@ -89,12 +187,47 @@ grow_vertical = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Main/NavigationRegion2D/StaticBody2D"]
 shape = SubResource("RectangleShape2D_kln2b")
 
-[node name="Container" parent="Main" node_paths=PackedStringArray("player") instance=ExtResource("5_bmxlf")]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Main/NavigationRegion2D/StaticBody2D"]
+y_sort_enabled = true
+position = Vector2(-20, -150)
+occluder = SubResource("OccluderPolygon2D_grg3l")
+
+[node name="Unoccluded" type="Node2D" parent="Main"]
+
+[node name="Container" parent="Main/Unoccluded" node_paths=PackedStringArray("player") instance=ExtResource("5_bmxlf")]
+y_sort_enabled = true
 position = Vector2(338, 301)
 id = "test_01"
 data = ExtResource("6_v1gob")
 player = NodePath("../Player")
 max_range = 60.0
+
+[node name="Player" parent="Main/Unoccluded" instance=ExtResource("1_r150o")]
+position = Vector2(415, 214)
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Main/Unoccluded/Player"]
+remote_path = NodePath("../../Camera Wrapper")
+update_rotation = false
+update_scale = false
+
+[node name="Camera Wrapper" type="Node2D" parent="Main/Unoccluded"]
+position = Vector2(415, 214)
+
+[node name="Camera" type="Camera2D" parent="Main/Unoccluded/Camera Wrapper"]
+zoom = Vector2(2, 2)
+
+[node name="Lighting" type="Node2D" parent="Main"]
+
+[node name="CanvasModulate" type="CanvasModulate" parent="Main/Lighting"]
+color = Color(0.25, 0.25, 0.25, 1)
+
+[node name="PointLight2D" type="PointLight2D" parent="Main/Lighting" node_paths=PackedStringArray("player")]
+energy = 0.75
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_1p5hy")
+texture_scale = 0.3
+script = ExtResource("6_4kpch")
+player = NodePath("../../Unoccluded/Player")
 
 [node name="UI" type="CanvasLayer" parent="." node_paths=PackedStringArray("inventory", "inventory_manager", "cursor", "cursor_container")]
 process_mode = 3
@@ -109,6 +242,8 @@ cursor_container = NodePath("Cursor Container")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 1.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -122,7 +257,7 @@ layout_mode = 2
 data = ExtResource("6_jw32o")
 
 [node name="Cursor Container" type="Node2D" parent="UI"]
-z_index = 10
+z_index = 100
 
 [node name="Cursor" type="Sprite2D" parent="UI/Cursor Container"]
 scale = Vector2(0.1, 0.1)

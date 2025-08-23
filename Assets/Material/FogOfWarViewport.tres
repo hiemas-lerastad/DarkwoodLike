@@ -1,0 +1,6 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cpvasngrfbjjs"]
+
+[ext_resource type="Shader" uid="uid://bypkkaoqcp2yn" path="res://Assets/Shaders/FogOfWarViewport.gdshader" id="1_u0dx4"]
+
+[resource]
+shader = ExtResource("1_u0dx4")
