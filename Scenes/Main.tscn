@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://bk2eymukefv5d" path="res://Scripts/UI/Inventory/InventoryManager.gd" id="5_pbw6q"]
 [ext_resource type="Script" uid="uid://wk1g84wqsnqs" path="res://Scripts/Vision.gd" id="6_4kpch"]
 [ext_resource type="PackedScene" uid="uid://bmp5agcc3np5c" path="res://Scenes/Inventory/ContainerBase.tscn" id="6_50glp"]
+[ext_resource type="Shader" uid="uid://bypkkaoqcp2yn" path="res://Assets/Shaders/FogOfWarViewport.gdshader" id="6_frkhe"]
 [ext_resource type="Resource" uid="uid://bhes16w5jaqrv" path="res://Resources/Inventory/Containers/PlayerInventory.tres" id="6_jw32o"]
 [ext_resource type="Resource" uid="uid://cnuxeg1s5cdrl" path="res://Resources/Inventory/Containers/Chest.tres" id="6_v1gob"]
 [ext_resource type="Shader" uid="uid://wh0ft308bcos" path="res://Assets/Shaders/FogOfWarOutput.gdshader" id="8_frkhe"]
@@ -20,11 +21,10 @@ viewport_path = NodePath("Main/Background/SubViewport")
 resource_local_to_scene = true
 shader = ExtResource("8_frkhe")
 shader_parameter/ALBEDO_TEXTURE = SubResource("ViewportTexture_frkhe")
-shader_parameter/scale = Vector2(1, 1)
+shader_parameter/enabled = true
 
 [sub_resource type="Gradient" id="Gradient_bmxlf"]
-interpolation_mode = 1
-offsets = PackedFloat32Array(0.302469, 0.685185)
+offsets = PackedFloat32Array(0.462963, 0.592593)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_4kpch"]
@@ -34,33 +34,8 @@ height = 1000
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
-[sub_resource type="Shader" id="Shader_grg3l"]
-code = "shader_type canvas_item;
-
-uniform sampler2D SCREEN_TEXTURE : hint_screen_texture;
-
-//void light() {
-    //if (LIGHT_COLOR == vec4(1) && LIGHT_ENERGY >= 1.0) {
-        //LIGHT = texture(SCREEN_TEXTURE, SCREEN_UV);
-		////discard;
-    //} else {
-        ////LIGHT.rgba = texture(SCREEN_TEXTURE, SCREEN_UV);
-    //}
-//}
-
-void light() {
-	SHADOW_MODULATE = texture(SCREEN_TEXTURE, SCREEN_UV);
-    if (LIGHT.r >= 0.0 && LIGHT_COLOR == vec4(1.0)) {
-        LIGHT = texture(SCREEN_TEXTURE, SCREEN_UV);
-		LIGHT = vec4(1.0);
-		//discard;
-    } else {
-        //LIGHT.rgba = texture(SCREEN_TEXTURE, SCREEN_UV);
-    }
-}"
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_frkhe"]
-shader = SubResource("Shader_grg3l")
+shader = ExtResource("6_frkhe")
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_grg3l"]
 polygon = PackedVector2Array(0, 0, 40, 0, 40, 300, 0, 300, 0, 0)

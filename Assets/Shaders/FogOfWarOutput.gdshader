@@ -1,16 +1,13 @@
 shader_type canvas_item;
 
-uniform sampler2D MASK_TEXTURE;
 uniform sampler2D ALBEDO_TEXTURE;
-uniform vec2 scale = vec2(1.0);
+uniform bool enabled = false;
 
 void fragment() {
-	vec4 mask_colour = texture(MASK_TEXTURE, SCREEN_UV);
-
-	if (COLOR != vec4(0.0, 0.0, 0.0, 1.0)) {
-		discard;
-	} else {
+	if (enabled) {
+		float alpha = 1.0 - COLOR.r;
 		vec4 albedo_colour = texture(ALBEDO_TEXTURE, UV);
-		COLOR = albedo_colour;
+		COLOR.rgb = albedo_colour.rgb;
+		COLOR.a = alpha;
 	}
 }
