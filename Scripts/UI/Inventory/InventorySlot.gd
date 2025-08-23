@@ -15,6 +15,7 @@ signal slot_item_exited;
 
 var stored_item: Item;
 var cell_size: Vector2 = Vector2(64.0, 64.0);
+var border_size: Vector2 = Vector2(2.0, 2.0);
 
 func initialise() -> void:
 	if disable:
@@ -30,7 +31,8 @@ func initialise() -> void:
 
 	if not disable_visuals:
 		var color_rect: ColorRect = ColorRect.new();
-		color_rect.size = cell_size;
+		color_rect.size = cell_size - border_size;
+		color_rect.position = border_size / 2;
 		color_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE;
 		color_rect.color = Color(0.0, 0.0, 0.0, 0.5);
 		visual = color_rect;

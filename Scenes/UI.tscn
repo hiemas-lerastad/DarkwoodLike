@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://bubnk7rms4udn"]
+
+[ext_resource type="Script" uid="uid://bwf31dl5fvg5g" path="res://Scripts/UI/UIManager.gd" id="1_qwshj"]
+[ext_resource type="PackedScene" uid="uid://bmp5agcc3np5c" path="res://Scenes/Inventory/ContainerBase.tscn" id="2_48q88"]
+[ext_resource type="Script" uid="uid://bk2eymukefv5d" path="res://Scripts/UI/Inventory/InventoryManager.gd" id="3_xjg7p"]
+[ext_resource type="Resource" uid="uid://bhes16w5jaqrv" path="res://Resources/Inventory/Containers/PlayerInventory.tres" id="4_mg6lk"]
+[ext_resource type="Texture2D" uid="uid://bb42qxb52n2mx" path="res://icon.svg" id="5_wunin"]
+
+[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("inventory", "inventory_manager", "cursor", "cursor_container")]
+process_mode = 3
+script = ExtResource("1_qwshj")
+inventory = NodePath("Inventory Manager/Inventory")
+container_scene = ExtResource("2_48q88")
+inventory_manager = NodePath("Inventory Manager")
+cursor = NodePath("Cursor Container/Cursor")
+cursor_container = NodePath("Cursor Container")
+
+[node name="Inventory Manager" type="HBoxContainer" parent="." node_paths=PackedStringArray("containers")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+script = ExtResource("3_xjg7p")
+containers = [NodePath("Inventory")]
+
+[node name="Inventory" parent="Inventory Manager" instance=ExtResource("2_48q88")]
+layout_mode = 2
+data = ExtResource("4_mg6lk")
+
+[node name="Cursor Container" type="Node2D" parent="."]
+z_index = 100
+
+[node name="Cursor" type="Sprite2D" parent="Cursor Container"]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("5_wunin")

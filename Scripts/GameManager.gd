@@ -1,16 +1,18 @@
 class_name GameManager;
 extends Node;
 
-@export var main: Node;
-@export var player: Player;
+@export var level: Node;
 @export var ui: UIManager;
 
 var interactables: Array[Node];
-
+var player: Player;
 
 func _ready() -> void:
 	ui.connect('trigger_pause', _trigger_pause);
 	ui.connect('close_container', _close_container);
+
+	player = level.player;
+
 	Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN;
 
 	interactables = get_tree().get_nodes_in_group("Interactable");

@@ -13,30 +13,18 @@ var sprinting: bool = false;
 func gather_input() -> InputPackage:
 	var new_input: InputPackage = InputPackage.new();
 
-	# Basic Movement
 	new_input.actions.append("idle");
-
-	#new_input.input_direction = Input.get_vector("movement_left", "movement_right", "movement_forward", "movement_backward");
 
 	if new_input.input_direction != Vector2.ZERO:
 		new_input.actions.append("jog");
-
-	# Sprint
-	#if toggle_sprint:
-		#if Input.is_action_just_pressed("movement_sprint"):
-			#sprinting = !sprinting;
-	#elif Input.is_action_pressed("movement_sprint"):
-		#sprinting = true;
-	#else:
-		#sprinting = false;
-#
-	#if sprinting:
-		#new_input.actions.append("sprint");
 
 	if move_target:
 		navigation_agent.target_position = move_target.global_position;
 		new_input.target_position = navigation_agent.get_next_path_position();
 		new_input.input_direction = entity.global_position.direction_to(navigation_agent.get_next_path_position());
+
+		if not look_target:
+			look_target = move_target;
 
 	if look_target:
 		var ray_params: PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.new();
@@ -50,6 +38,7 @@ func gather_input() -> InputPackage:
 
 		if ray_result.is_empty():
 			new_input.target_position = look_target.global_position;
+
 	else:
 		new_input.target_position = entity.global_position
 

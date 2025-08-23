@@ -7,8 +7,8 @@
 [ext_resource type="Resource" uid="uid://c1jfcnl8wwr60" path="res://Resources/Stats/VillagerStats.tres" id="5_vaifk"]
 [ext_resource type="PackedScene" uid="uid://b75glcsy5olb7" path="res://Scenes/Entities/HumanoidEventProcessor.tscn" id="5_ysm2t"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_kyqiw"]
-radius = 20.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f7yqm"]
+size = Vector2(38, 38)
 
 [node name="Villager" type="CharacterBody2D" node_paths=PackedStringArray("input_gatherer", "context_gatherer", "event_processor")]
 collision_layer = 2
@@ -25,7 +25,7 @@ scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_vaifk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_kyqiw")
+shape = SubResource("RectangleShape2D_f7yqm")
 
 [node name="Villager Input Gatherer" type="Node" parent="." node_paths=PackedStringArray("navigation_agent", "entity")]
 script = ExtResource("3_vaifk")

@@ -7,8 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://b75glcsy5olb7" path="res://Scenes/Entities/HumanoidEventProcessor.tscn" id="5_5ixxa"]
 [ext_resource type="Resource" uid="uid://b1iqxysq57vp3" path="res://Resources/Stats/PlayerStats.tres" id="5_nn08x"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_kyqiw"]
-radius = 20.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yu0ev"]
+size = Vector2(38, 38)
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("input_gatherer", "context_gatherer", "event_processor")]
 collision_layer = 6
@@ -25,7 +25,7 @@ scale = Vector2(0.3, 0.3)
 texture = ExtResource("1_rpqav")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_kyqiw")
+shape = SubResource("RectangleShape2D_yu0ev")
 
 [node name="Player Input Gatherer" type="Node" parent="." node_paths=PackedStringArray("entity")]
 script = ExtResource("2_bhhdu")

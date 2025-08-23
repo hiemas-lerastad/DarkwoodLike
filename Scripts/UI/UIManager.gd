@@ -12,11 +12,14 @@ var container: InventoryContainer;
 signal trigger_pause;
 signal close_container;
 
+
 func _ready() -> void:
 	inventory_manager.connect('close_container', _close_container);
 
+
 func _process(_delta: float) -> void:
 	update_cursor();
+
 
 func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ui_action_inventory"):
