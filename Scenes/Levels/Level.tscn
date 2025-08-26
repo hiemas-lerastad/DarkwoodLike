@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://0o1l72ci1u4l"]
+[gd_scene load_steps=24 format=3 uid="uid://0o1l72ci1u4l"]
 
 [ext_resource type="Script" uid="uid://bfbp6wp4bdsxm" path="res://Scripts/Level/LevelManager.gd" id="1_or7tv"]
 [ext_resource type="PackedScene" uid="uid://cyg4r2dongkol" path="res://Scenes/Entities/Villager.tscn" id="2_or7tv"]
@@ -6,6 +6,7 @@
 [ext_resource type="Shader" uid="uid://wh0ft308bcos" path="res://Assets/Shaders/FogOfWarOutput.gdshader" id="3_133si"]
 [ext_resource type="Script" uid="uid://wk1g84wqsnqs" path="res://Scripts/Utility/PlayerFollower.gd" id="4_esopp"]
 [ext_resource type="Shader" uid="uid://bypkkaoqcp2yn" path="res://Assets/Shaders/FogOfWarViewport.gdshader" id="5_b10nm"]
+[ext_resource type="Texture2D" uid="uid://8e06vf1sobru" path="res://Assets/Textures/ViewConeTest.png" id="6_flwvg"]
 [ext_resource type="PackedScene" uid="uid://c1ltqyfy4bgto" path="res://Scenes/Levels/Objects/Tree.tscn" id="7_3jhef"]
 [ext_resource type="PackedScene" uid="uid://dktp51twu7k5j" path="res://Scenes/Entities/Player.tscn" id="8_nrlyp"]
 [ext_resource type="PackedScene" uid="uid://by62gqjd2nvj2" path="res://Scenes/Levels/Objects/Interactables/Chest.tscn" id="8_rbpxy"]
@@ -111,7 +112,15 @@ range_item_cull_mask = 2
 shadow_enabled = true
 shadow_item_cull_mask = 7
 texture = SubResource("GradientTexture2D_4kpch")
-texture_scale = 0.3
+texture_scale = 0.2
+
+[node name="Vision2" type="PointLight2D" parent="Visibility/SubViewport/Vision Container"]
+rotation = 1.5708
+range_item_cull_mask = 2
+shadow_enabled = true
+shadow_item_cull_mask = 7
+texture = ExtResource("6_flwvg")
+texture_scale = 0.8
 
 [node name="Base" type="ColorRect" parent="Visibility/SubViewport"]
 light_mask = 2
@@ -163,12 +172,10 @@ script = ExtResource("10_b10nm")
 
 [node name="Lighting" type="Node2D" parent="." node_paths=PackedStringArray("ambient_light", "lights")]
 script = ExtResource("10_133si")
-ambient_light_amount = 0.3
 ambient_light = NodePath("Canvas Modulate")
 lights = [NodePath("Point Light 2D"), NodePath("Point Light 2D2")]
 
 [node name="Canvas Modulate" type="CanvasModulate" parent="Lighting"]
-visible = false
 color = Color(0.25, 0.25, 0.25, 1)
 
 [node name="Point Light 2D" type="PointLight2D" parent="Lighting"]
