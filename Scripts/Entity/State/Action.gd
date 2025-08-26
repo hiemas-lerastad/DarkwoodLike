@@ -9,7 +9,9 @@ var behaviour_manager: BehaviourManager;
 var enter_action_time: float;
 
 func update(input: InputPackage, context: ContextPackage, delta: float) -> void:
-	entity.move_and_slide();
+	if 'move_and_slide' in entity:
+		entity.move_and_slide();
+
 	process_input_vector(input, context, delta);
 	_update(input, context, delta);
 

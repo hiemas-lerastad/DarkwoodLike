@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dhk0putpb3fpj"]
+
+[ext_resource type="Shader" uid="uid://fn0d2pckuvfy" path="res://Assets/Shaders/FogOfWarForeground.gdshader" id="1_pw5t1"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_pw5t1")
+shader_parameter/enabled = false

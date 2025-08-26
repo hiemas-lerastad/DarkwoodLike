@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=3 uid="uid://c1ltqyfy4bgto"]
+
+[ext_resource type="Script" uid="uid://di3au8efk3x2r" path="res://Scripts/Level/ObjectLayerManager.gd" id="1_giuxe"]
+[ext_resource type="Script" uid="uid://5d277d44jxg7" path="res://Scripts/Level/Canopy.gd" id="2_gy08a"]
+[ext_resource type="Texture2D" uid="uid://d1pgj16qepoeq" path="res://Assets/Textures/Trunk.png" id="2_j0iv3"]
+[ext_resource type="Texture2D" uid="uid://cdyxy6ceca8dt" path="res://Assets/Textures/Leaves.png" id="3_j0iv3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gy08a"]
+radius = 13.0
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_giuxe"]
+polygon = PackedVector2Array(0, 13, 3.38372, 12.5627, 6.48496, 11.2794, 9.21191, 9.19409, 11.2705, 6.49387, 12.5805, 3.33916, 13.0083, -0.029428, 12.5805, -3.34455, 11.2438, -6.55273, 9.18519, -9.19949, 6.48497, -11.2581, 3.41047, -12.5413, -0.0115938, -12.9958, -3.391, -12.5536, -6.53394, -11.244, -9.19047, -9.18615, -11.2733, -6.49219, -12.5579, -3.36172, -12.9944, -0.00675321, -12.5579, 3.38563, -11.2586, 6.51157, -9.17234, 9.21005, -6.53055, 11.2282, -3.36101, 12.5558)
+
+[node name="Tree" type="StaticBody2D" node_paths=PackedStringArray("visibility_occluders", "foreground_items") groups=["LayeredObject"]]
+script = ExtResource("1_giuxe")
+visibility_occluders = [NodePath("Visibility Occluder")]
+foreground_items = [NodePath("Leaves Bottom"), NodePath("Leaves Middle"), NodePath("Leaves Top")]
+
+[node name="Trunk" type="Sprite2D" parent="."]
+scale = Vector2(0.24, 0.24)
+texture = ExtResource("2_j0iv3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_gy08a")
+
+[node name="Light Occluder" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_giuxe")
+occluder_light_mask = 3
+
+[node name="Visibility Occluder" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_giuxe")
+occluder_light_mask = 3
+
+[node name="Leaves Bottom" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("3_j0iv3")
+script = ExtResource("2_gy08a")
+height = 2.0
+
+[node name="Leaves Middle" type="Sprite2D" parent="."]
+z_index = 1
+rotation = -0.593412
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("3_j0iv3")
+script = ExtResource("2_gy08a")
+height = 2.5
+
+[node name="Leaves Top" type="Sprite2D" parent="."]
+z_index = 2
+rotation = 0.853466
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_j0iv3")
+script = ExtResource("2_gy08a")
+height = 3.0

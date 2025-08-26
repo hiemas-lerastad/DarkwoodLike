@@ -24,15 +24,17 @@ func _on_mouse_exited() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if player:
-		if hovered and global_position.distance_to(player.global_position) < max_range and not interactable:
-			can_interact.emit(self, true);
+	if not player:
+		player = GLOBALS.player;
 
-		if interactable and (global_position.distance_to(player.global_position) > max_range or not hovered):
-			can_interact.emit(self, false);
+	if hovered and global_position.distance_to(player.global_position) < max_range and not interactable:
+		can_interact.emit(self, true);
 
-		if interactable and Input.is_action_just_pressed(trigger):
-			interacted.emit(self);
+	if interactable and (global_position.distance_to(player.global_position) > max_range or not hovered):
+		can_interact.emit(self, false);
+
+	if interactable and Input.is_action_just_pressed(trigger):
+		interacted.emit(self);
 
 
 func on_interact() -> void:

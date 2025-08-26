@@ -1,12 +1,24 @@
-[gd_scene load_steps=6 format=3 uid="uid://bubnk7rms4udn"]
+[gd_scene load_steps=18 format=3 uid="uid://bubnk7rms4udn"]
 
 [ext_resource type="Script" uid="uid://bwf31dl5fvg5g" path="res://Scripts/UI/UIManager.gd" id="1_qwshj"]
 [ext_resource type="PackedScene" uid="uid://bmp5agcc3np5c" path="res://Scenes/Inventory/ContainerBase.tscn" id="2_48q88"]
 [ext_resource type="Script" uid="uid://bk2eymukefv5d" path="res://Scripts/UI/Inventory/InventoryManager.gd" id="3_xjg7p"]
 [ext_resource type="Resource" uid="uid://bhes16w5jaqrv" path="res://Resources/Inventory/Containers/PlayerInventory.tres" id="4_mg6lk"]
 [ext_resource type="Texture2D" uid="uid://bb42qxb52n2mx" path="res://icon.svg" id="5_wunin"]
+[ext_resource type="Script" uid="uid://b4uefw7a6u4lv" path="res://Scripts/Entity/State/EventProcessor.gd" id="6_xjg7p"]
+[ext_resource type="Script" uid="uid://bshxnyj8if235" path="res://Scripts/Entity/Context/ContextGatherer.gd" id="7_mg6lk"]
+[ext_resource type="Script" uid="uid://bpxjykthqo557" path="res://Scripts/Entity/State/BehaviourManager.gd" id="7_vqx31"]
+[ext_resource type="Script" uid="uid://bv3nq0i0ji3vo" path="res://Scripts/Entity/State/BehaviourContainer.gd" id="8_b1goy"]
+[ext_resource type="Script" uid="uid://taxqev4a5c1k" path="res://Scripts/Entity/UI/Behaviours/UIFreeBehaviour.gd" id="9_b1goy"]
+[ext_resource type="Script" uid="uid://chqetey8ldloe" path="res://Scripts/Entity/State/ActionContainer.gd" id="9_n04ve"]
+[ext_resource type="Script" uid="uid://cjpmw1hjei1y3" path="res://Scripts/Entity/UI/Behaviours/UIInventoryBehaviour.gd" id="10_5q4fb"]
+[ext_resource type="Script" uid="uid://c8he3d2jwmlbr" path="res://Scripts/Entity/UI/Behaviours/UIContainerBehaviour.gd" id="11_mqm5i"]
+[ext_resource type="Script" uid="uid://dymsvpltr7acf" path="res://Scripts/Entity/UI/Actions/UIFreeAction.gd" id="11_n04ve"]
+[ext_resource type="Script" uid="uid://bmbip4ayugtkf" path="res://Scripts/Entity/Input/UIInputGatherer.gd" id="11_wi7yl"]
+[ext_resource type="Script" uid="uid://br8nbvn8guih4" path="res://Scripts/Entity/UI/Actions/UIInventoryAction.gd" id="14_mqm5i"]
+[ext_resource type="Script" uid="uid://c6mgw8tn477q4" path="res://Scripts/Entity/UI/Actions/UIContainerAction.gd" id="15_jnovg"]
 
-[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("inventory", "inventory_manager", "cursor", "cursor_container")]
+[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("inventory", "inventory_manager", "cursor", "cursor_container", "input_gatherer", "context_gatherer", "event_processor")]
 process_mode = 3
 script = ExtResource("1_qwshj")
 inventory = NodePath("Inventory Manager/Inventory")
@@ -14,6 +26,9 @@ container_scene = ExtResource("2_48q88")
 inventory_manager = NodePath("Inventory Manager")
 cursor = NodePath("Cursor Container/Cursor")
 cursor_container = NodePath("Cursor Container")
+input_gatherer = NodePath("UI Input Gatherer")
+context_gatherer = NodePath("Context Gatherer")
+event_processor = NodePath("Event Processor")
 
 [node name="Inventory Manager" type="HBoxContainer" parent="." node_paths=PackedStringArray("containers")]
 anchors_preset = 15
@@ -39,3 +54,63 @@ z_index = 100
 [node name="Cursor" type="Sprite2D" parent="Cursor Container"]
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("5_wunin")
+
+[node name="Event Processor" type="Node" parent="." node_paths=PackedStringArray("entity", "primary_behaviour_manager")]
+script = ExtResource("6_xjg7p")
+entity = NodePath("..")
+primary_behaviour_manager = NodePath("Behaviour Manager")
+metadata/_custom_type_script = "uid://b4uefw7a6u4lv"
+
+[node name="Behaviour Manager" type="Node" parent="Event Processor" node_paths=PackedStringArray("behavior_container", "actions_container", "current_behaviour")]
+script = ExtResource("7_vqx31")
+behavior_container = NodePath("Behaviour Container")
+actions_container = NodePath("Action Container")
+current_behaviour = NodePath("Behaviour Container/UI Free Behaviour")
+id = "ui"
+metadata/_custom_type_script = "uid://bpxjykthqo557"
+
+[node name="Behaviour Container" type="Node" parent="Event Processor/Behaviour Manager"]
+script = ExtResource("8_b1goy")
+metadata/_custom_type_script = "uid://bv3nq0i0ji3vo"
+
+[node name="UI Free Behaviour" type="Node" parent="Event Processor/Behaviour Manager/Behaviour Container"]
+script = ExtResource("9_b1goy")
+behaviour_string = "free"
+metadata/_custom_type_script = "uid://taxqev4a5c1k"
+
+[node name="UI Inventory Behaviour" type="Node" parent="Event Processor/Behaviour Manager/Behaviour Container"]
+script = ExtResource("10_5q4fb")
+behaviour_string = "inventory"
+metadata/_custom_type_script = "uid://cjpmw1hjei1y3"
+
+[node name="UI Container Behaviour" type="Node" parent="Event Processor/Behaviour Manager/Behaviour Container"]
+script = ExtResource("11_mqm5i")
+behaviour_string = "container"
+metadata/_custom_type_script = "uid://c8he3d2jwmlbr"
+
+[node name="Action Container" type="Node" parent="Event Processor/Behaviour Manager"]
+script = ExtResource("9_n04ve")
+metadata/_custom_type_script = "uid://chqetey8ldloe"
+
+[node name="UI Free Action" type="Node" parent="Event Processor/Behaviour Manager/Action Container"]
+script = ExtResource("11_n04ve")
+action_name = "free"
+metadata/_custom_type_script = "uid://dymsvpltr7acf"
+
+[node name="UI Inventory Action" type="Node" parent="Event Processor/Behaviour Manager/Action Container"]
+script = ExtResource("14_mqm5i")
+action_name = "inventory"
+metadata/_custom_type_script = "uid://br8nbvn8guih4"
+
+[node name="UI Container Action" type="Node" parent="Event Processor/Behaviour Manager/Action Container"]
+script = ExtResource("15_jnovg")
+action_name = "container"
+metadata/_custom_type_script = "uid://c6mgw8tn477q4"
+
+[node name="Context Gatherer" type="Node2D" parent="."]
+script = ExtResource("7_mg6lk")
+metadata/_custom_type_script = "uid://bshxnyj8if235"
+
+[node name="UI Input Gatherer" type="Node" parent="."]
+script = ExtResource("11_wi7yl")
+metadata/_custom_type_script = "uid://bmbip4ayugtkf"

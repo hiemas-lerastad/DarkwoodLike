@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://bpcp71cnr1lvj"]
+
+[ext_resource type="Script" uid="uid://di3au8efk3x2r" path="res://Scripts/Level/ObjectLayerManager.gd" id="1_ug10f"]
+[ext_resource type="Texture2D" uid="uid://cxenfiyrhnaya" path="res://Assets/Textures/WallTest.png" id="2_mlyfr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hhop1"]
+size = Vector2(66, 584)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ug10f"]
+polygon = PackedVector2Array(-34, -292, 32, -292, 32, 292, -34, 292)
+
+[node name="WallTest" type="StaticBody2D" node_paths=PackedStringArray("visibility_occluders") groups=["LayeredObject"]]
+script = ExtResource("1_ug10f")
+visibility_occluders = [NodePath("LightOccluder2D")]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(35, 20)
+texture = ExtResource("2_mlyfr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 0)
+shape = SubResource("RectangleShape2D_hhop1")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_ug10f")
+
+[node name="LightOccluder2D2" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_ug10f")
+occluder_light_mask = 2

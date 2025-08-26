@@ -1,5 +1,5 @@
 class_name Entity;
-extends CharacterBody2D;
+extends Node;
 
 @export var input_gatherer: InputGatherer;
 @export var context_gatherer: ContextGatherer;

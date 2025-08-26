@@ -2,5 +2,5 @@ class_name Player;
 extends Entity;
 
 
-func _ready() -> void:
+func _enter_tree() -> void:
 	GLOBALS.player = self;
