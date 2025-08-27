@@ -69,4 +69,5 @@ func switch_to(next_action_name: String, input: InputPackage, context: ContextPa
 		current_action.on_exit_action(next_action_name);
 
 	current_action = actions.get_action_by_name(next_action_name);
+	current_action.current_action_duration = 0.0;
 	current_action.on_enter_action(input, context);

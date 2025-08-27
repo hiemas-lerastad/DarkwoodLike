@@ -1,16 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://b75glcsy5olb7"]
+[gd_scene load_steps=11 format=3 uid="uid://b75glcsy5olb7"]
 
 [ext_resource type="Script" uid="uid://b4uefw7a6u4lv" path="res://Scripts/Entity/State/EventProcessor.gd" id="1_us4oy"]
 [ext_resource type="Script" uid="uid://bpxjykthqo557" path="res://Scripts/Entity/State/BehaviourManager.gd" id="2_06j4y"]
 [ext_resource type="Script" uid="uid://bv3nq0i0ji3vo" path="res://Scripts/Entity/State/BehaviourContainer.gd" id="3_btg84"]
 [ext_resource type="Script" uid="uid://ceirc118mrp6y" path="res://Scripts/Entity/Humanoid/Primary/Behaviours/HumanoidPrimaryIdleBehaviour.gd" id="4_1hfa7"]
 [ext_resource type="Script" uid="uid://chqetey8ldloe" path="res://Scripts/Entity/State/ActionContainer.gd" id="5_klvgc"]
+[ext_resource type="Script" uid="uid://bjfor1yjhd5kp" path="res://Scripts/Entity/Humanoid/Primary/Actions/HumanoidPrimaryAimAction.gd" id="6_bvq00"]
 [ext_resource type="Script" uid="uid://blce2qdl0b0pu" path="res://Scripts/Entity/Humanoid/Primary/Actions/HumanoidPrimaryIdleAction.gd" id="6_n25lv"]
 [ext_resource type="Script" uid="uid://dv6goh5j6lomh" path="res://Scripts/Entity/Humanoid/Movement/Behaviours/HumanoidMovementJogBehaviour.gd" id="7_a3002"]
 [ext_resource type="Script" uid="uid://copej88emwetc" path="res://Scripts/Entity/Humanoid/Movement/Actions/HumanoidMovementIdleAction.gd" id="8_cajuy"]
 [ext_resource type="Script" uid="uid://ceu6eommumqbl" path="res://Scripts/Entity/Humanoid/Movement/Actions/HumanoidMovementJogAction.gd" id="9_54cvs"]
 
-[node name="Player Event Processor" type="Node" node_paths=PackedStringArray("primary_behaviour_manager")]
+[node name="Humanoid Event Processor" type="Node" node_paths=PackedStringArray("primary_behaviour_manager")]
 script = ExtResource("1_us4oy")
 primary_behaviour_manager = NodePath("Primary Behaviour Manager")
 
@@ -18,14 +19,14 @@ primary_behaviour_manager = NodePath("Primary Behaviour Manager")
 script = ExtResource("2_06j4y")
 behavior_container = NodePath("Primary Behaviour Container")
 actions_container = NodePath("Primary Action Container")
-current_behaviour = NodePath("Primary Behaviour Container/Player Primary Idle Behaviour")
+current_behaviour = NodePath("Primary Behaviour Container/Humanoid Primary Idle Behaviour")
 id = "primary"
 secondary_behaviour_managers = [NodePath("../Movement Behaviour Manager")]
 
 [node name="Primary Behaviour Container" type="Node" parent="Primary Behaviour Manager"]
 script = ExtResource("3_btg84")
 
-[node name="Player Primary Idle Behaviour" type="Node" parent="Primary Behaviour Manager/Primary Behaviour Container"]
+[node name="Humanoid Primary Idle Behaviour" type="Node" parent="Primary Behaviour Manager/Primary Behaviour Container"]
 script = ExtResource("4_1hfa7")
 behaviour_string = "idle"
 metadata/_custom_type_script = "uid://ceirc118mrp6y"
@@ -33,34 +34,39 @@ metadata/_custom_type_script = "uid://ceirc118mrp6y"
 [node name="Primary Action Container" type="Node" parent="Primary Behaviour Manager"]
 script = ExtResource("5_klvgc")
 
-[node name="Player Primary Idle Action" type="Node" parent="Primary Behaviour Manager/Primary Action Container"]
-script = ExtResource("6_n25lv")
+[node name="Humanoid Primary Idle Action" type="Node" parent="Primary Behaviour Manager/Primary Action Container"]
+script = ExtResource("6_bvq00")
 action_name = "idle"
+metadata/_custom_type_script = "uid://bjfor1yjhd5kp"
+
+[node name="Humanoid Primary Aim Action" type="Node" parent="Primary Behaviour Manager/Primary Action Container"]
+script = ExtResource("6_n25lv")
+action_name = "aim"
 metadata/_custom_type_script = "uid://blce2qdl0b0pu"
 
 [node name="Movement Behaviour Manager" type="Node" parent="." node_paths=PackedStringArray("behavior_container", "actions_container", "current_behaviour")]
 script = ExtResource("2_06j4y")
 behavior_container = NodePath("Movement Behaviour Container")
 actions_container = NodePath("Movement Action Container")
-current_behaviour = NodePath("Movement Behaviour Container/Player Movement Jog Behaviour")
+current_behaviour = NodePath("Movement Behaviour Container/Humanoid Movement Jog Behaviour")
 id = "movement"
 
 [node name="Movement Behaviour Container" type="Node" parent="Movement Behaviour Manager"]
 script = ExtResource("3_btg84")
 
-[node name="Player Movement Jog Behaviour" type="Node" parent="Movement Behaviour Manager/Movement Behaviour Container"]
+[node name="Humanoid Movement Jog Behaviour" type="Node" parent="Movement Behaviour Manager/Movement Behaviour Container"]
 script = ExtResource("7_a3002")
 metadata/_custom_type_script = "uid://dv6goh5j6lomh"
 
 [node name="Movement Action Container" type="Node" parent="Movement Behaviour Manager"]
 script = ExtResource("5_klvgc")
 
-[node name="Player Movement Idle Action" type="Node" parent="Movement Behaviour Manager/Movement Action Container"]
+[node name="Humanoid Movement Idle Action" type="Node" parent="Movement Behaviour Manager/Movement Action Container"]
 script = ExtResource("8_cajuy")
 action_name = "idle"
 metadata/_custom_type_script = "uid://copej88emwetc"
 
-[node name="Player Movement Jog Action" type="Node" parent="Movement Behaviour Manager/Movement Action Container"]
+[node name="Humanoid Movement Jog Action" type="Node" parent="Movement Behaviour Manager/Movement Action Container"]
 script = ExtResource("9_54cvs")
 action_name = "jog"
 metadata/_custom_type_script = "uid://ceu6eommumqbl"

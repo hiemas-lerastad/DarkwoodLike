@@ -43,7 +43,7 @@ rotation = -0.593412
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("3_j0iv3")
 script = ExtResource("2_gy08a")
-height = 2.5
+height = 2.75
 
 [node name="Leaves Top" type="Sprite2D" parent="."]
 z_index = 2
@@ -51,4 +51,4 @@ rotation = 0.853466
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("3_j0iv3")
 script = ExtResource("2_gy08a")
-height = 3.0
+height = 3.5

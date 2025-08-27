@@ -45,4 +45,3 @@ entity = NodePath("..")
 path_desired_distance = 0.1
 path_max_distance = 20.0
 navigation_layers = 2
-debug_enabled = true

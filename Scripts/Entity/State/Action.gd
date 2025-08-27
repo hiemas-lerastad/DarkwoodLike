@@ -6,17 +6,20 @@ var behaviour_manager: BehaviourManager;
 
 @export var action_name: String;
 
-var enter_action_time: float;
+var current_action_duration: float;
 
 func update(input: InputPackage, context: ContextPackage, delta: float) -> void:
 	if 'move_and_slide' in entity:
 		entity.move_and_slide();
+
+	current_action_duration += delta;
 
 	process_input_vector(input, context, delta);
 	_update(input, context, delta);
 
 func _update(_input: InputPackage, _context: ContextPackage, _delta: float) -> void:
 	pass;
+
 
 func on_enter_action(_input: InputPackage, _context: ContextPackage) -> void:
 	pass;

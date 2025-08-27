@@ -1,4 +1,4 @@
-class_name HumanoidPrimaryAimAction;
+class_name HumanoidPrimaryIdleAction;
 extends Action;
 
 var angle: float = 90.0;
@@ -12,6 +12,6 @@ func process_input_vector(input: InputPackage, context: ContextPackage, delta: f
 	entity.rotation = lerp_angle(entity.rotation, target_angle,  delta * context.stats.turn_speed);
 
 	if entity is Player:
-		angle = lerp(angle, context.stats.min_aim_angle,  delta * context.stats.aim_speed);
+		angle = lerp(angle, context.stats.max_aim_angle,  delta * context.stats.aim_speed);
 
 		entity.vision_cone.angle = angle;

@@ -3,8 +3,12 @@ extends Behaviour;
 
 func set_used_actions() -> Array[String]:
 	return [
-		"idle"
+		"idle",
+		"aim"
 	];
 
 func choose_action(input: InputPackage, context: ContextPackage) -> void:
-	switch_to("idle", input, context);
+	if input.actions.has('aim'):
+		switch_to("aim", input, context);
+	else:
+		switch_to("idle", input, context);

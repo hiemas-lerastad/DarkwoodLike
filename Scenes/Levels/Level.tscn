@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://0o1l72ci1u4l"]
+[gd_scene load_steps=29 format=3 uid="uid://0o1l72ci1u4l"]
 
 [ext_resource type="Script" uid="uid://bfbp6wp4bdsxm" path="res://Scripts/Level/LevelManager.gd" id="1_or7tv"]
 [ext_resource type="PackedScene" uid="uid://cyg4r2dongkol" path="res://Scenes/Entities/Villager.tscn" id="2_or7tv"]
@@ -6,7 +6,7 @@
 [ext_resource type="Shader" uid="uid://wh0ft308bcos" path="res://Assets/Shaders/FogOfWarOutput.gdshader" id="3_133si"]
 [ext_resource type="Script" uid="uid://wk1g84wqsnqs" path="res://Scripts/Utility/PlayerFollower.gd" id="4_esopp"]
 [ext_resource type="Shader" uid="uid://bypkkaoqcp2yn" path="res://Assets/Shaders/FogOfWarViewport.gdshader" id="5_b10nm"]
-[ext_resource type="Texture2D" uid="uid://8e06vf1sobru" path="res://Assets/Textures/ViewConeTest.png" id="6_flwvg"]
+[ext_resource type="Script" uid="uid://dsa70y5se7mjx" path="res://Scripts/Level/VisionCone.gd" id="6_flwvg"]
 [ext_resource type="PackedScene" uid="uid://c1ltqyfy4bgto" path="res://Scenes/Levels/Objects/Tree.tscn" id="7_3jhef"]
 [ext_resource type="PackedScene" uid="uid://dktp51twu7k5j" path="res://Scenes/Entities/Player.tscn" id="8_nrlyp"]
 [ext_resource type="PackedScene" uid="uid://by62gqjd2nvj2" path="res://Scenes/Levels/Objects/Interactables/Chest.tscn" id="8_rbpxy"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://tw4t5kecc2na" path="res://Scripts/Level/LightingManager.gd" id="10_133si"]
 [ext_resource type="Script" uid="uid://dc17sj4t4vnbk" path="res://Scripts/CameraManager.gd" id="10_b10nm"]
 [ext_resource type="Shader" uid="uid://fn0d2pckuvfy" path="res://Assets/Shaders/FogOfWarForeground.gdshader" id="11_esopp"]
+[ext_resource type="Shader" uid="uid://bi2vabbgt0o5t" path="res://Assets/Shaders/FogOfWarOverlay.gdshader" id="15_a1gik"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1p5hy"]
 resource_local_to_scene = true
@@ -32,12 +33,18 @@ height = 1000
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_flwvg"]
+polygon = PackedVector2Array(8, 8, -40, -40, -40, 8)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_3jhef"]
+polygon = PackedVector2Array(-8, 8, 40, -40, 40, 8)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_frkhe"]
 shader = ExtResource("5_b10nm")
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_idj7w"]
-vertices = PackedVector2Array(539, 436, 1129.96, 629.93, 18.0625, 626.063, 459, 436, 19.9297, 21.0313, 459, 96, 1129.03, 22.9609, 539, 96)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(3, 2, 4, 5), PackedInt32Array(5, 4, 6, 7), PackedInt32Array(6, 1, 0, 7)])
+vertices = PackedVector2Array(350.703, 126, 438, 77, 438, 627.523, 329.703, 337, 325.188, 320.148, 332, 250, 346.188, 142.852, 332, 190, 333.852, 155.188, 325.188, 353.852, 280.039, 190, 280.188, 189.852, 317, 159.703, 312.852, 307.813, 312.852, 366.188, 18.0625, 626.063, 296, 370.703, 279.148, 366.188, 252, 250, 296, 303.297, 279.148, 307.813, 19.9297, 21.0313, 284.703, 173, 300.148, 155.188, 280.188, 156.148, 287.813, 142.852, 251, 206.703, 252, 206.43, 267.852, 143.813, 283.297, 126, 346.188, 109.148, 1129.03, 22.9609, 1129.96, 629.922, 544, 627.883, 544, 77, 266.813, 353.852, 262.297, 337, 266.813, 320.148, 234.148, 202.188, 221.813, 189.852, 217.297, 173, 221.813, 156.148, 234.148, 143.813, 333.852, 96.8125, 287.813, 109.148, 251, 139.297, 300.148, 96.8125, 317, 92.2969)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5, 6), PackedInt32Array(6, 5, 7, 8), PackedInt32Array(9, 3, 2), PackedInt32Array(7, 10, 11, 12, 8), PackedInt32Array(5, 4, 13), PackedInt32Array(14, 9, 2), PackedInt32Array(14, 2, 15, 16), PackedInt32Array(17, 16, 15), PackedInt32Array(18, 5, 13, 19), PackedInt32Array(18, 19, 20, 21), PackedInt32Array(12, 11, 22, 23), PackedInt32Array(23, 22, 24, 25), PackedInt32Array(26, 27, 18), PackedInt32Array(25, 24, 28, 29), PackedInt32Array(1, 0, 30), PackedInt32Array(31, 32, 33, 34), PackedInt32Array(21, 31, 34, 1), PackedInt32Array(35, 17, 15), PackedInt32Array(35, 15, 21, 36), PackedInt32Array(37, 36, 21), PackedInt32Array(20, 37, 21), PackedInt32Array(38, 26, 18), PackedInt32Array(38, 18, 21, 39), PackedInt32Array(40, 39, 21), PackedInt32Array(41, 40, 21), PackedInt32Array(42, 41, 21), PackedInt32Array(1, 30, 43), PackedInt32Array(44, 29, 28, 45, 21), PackedInt32Array(45, 42, 21), PackedInt32Array(46, 44, 21), PackedInt32Array(47, 46, 21), PackedInt32Array(47, 21, 1), PackedInt32Array(47, 1, 43)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(0, 1, 1149, 3, 1150, 650, -2, 646)])
 agent_radius = 20.0
 
@@ -60,13 +67,27 @@ resource_local_to_scene = true
 shader = ExtResource("11_esopp")
 shader_parameter/MASK_TEXTURE = SubResource("ViewportTexture_esopp")
 shader_parameter/enabled = true
+shader_parameter/min_alpha = 0.2
 
-[node name="Level" type="CanvasLayer" node_paths=PackedStringArray("player", "visibility_occluder_target", "foreground_items_target", "occluded_target")]
+[sub_resource type="ViewportTexture" id="ViewportTexture_umfvy"]
+viewport_path = NodePath("Visibility/SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8loo1"]
+resource_local_to_scene = true
+shader = ExtResource("15_a1gik")
+shader_parameter/MASK_TEXTURE = SubResource("ViewportTexture_umfvy")
+shader_parameter/enabled = true
+shader_parameter/min_alpha = 0.2
+shader_parameter/weight = 0.8
+shader_parameter/ambient_light_value = 0.2
+
+[node name="Level" type="CanvasLayer" node_paths=PackedStringArray("player", "vision_cone", "visibility_occluder_target", "foreground_items_target", "occluded_target")]
 process_mode = 1
 layer = 0
 follow_viewport_enabled = true
 script = ExtResource("1_or7tv")
 player = NodePath("Unoccluded/Player")
+vision_cone = NodePath("Visibility/SubViewport/Vision Container/Cone Occluders")
 visibility_occluder_target = NodePath("Visibility/SubViewport/Occluders")
 foreground_items_target = NodePath("Foreground/SubViewport")
 occluded_target = NodePath("Occluded")
@@ -104,26 +125,43 @@ size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
 [node name="Vision Container" type="Node2D" parent="Visibility/SubViewport"]
-position = Vector2(403, 278)
+position = Vector2(408, 280)
 script = ExtResource("4_esopp")
+follow_position = true
+follow_rotation = true
 
 [node name="Vision" type="PointLight2D" parent="Visibility/SubViewport/Vision Container"]
 range_item_cull_mask = 2
 shadow_enabled = true
-shadow_item_cull_mask = 7
+shadow_item_cull_mask = 3
 texture = SubResource("GradientTexture2D_4kpch")
 texture_scale = 0.2
 
 [node name="Vision2" type="PointLight2D" parent="Visibility/SubViewport/Vision Container"]
-rotation = 1.5708
-range_item_cull_mask = 2
+range_item_cull_mask = 4
 shadow_enabled = true
 shadow_item_cull_mask = 7
-texture = ExtResource("6_flwvg")
-texture_scale = 0.8
+texture = SubResource("GradientTexture2D_4kpch")
+texture_scale = 2.0
+
+[node name="Cone Occluders" type="Node2D" parent="Visibility/SubViewport/Vision Container" node_paths=PackedStringArray("left_occluder", "right_occluder")]
+rotation = 1.5708
+script = ExtResource("6_flwvg")
+left_occluder = NodePath("LightOccluder2D")
+right_occluder = NodePath("LightOccluder2D2")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Visibility/SubViewport/Vision Container/Cone Occluders"]
+rotation = 0.239605
+occluder = SubResource("OccluderPolygon2D_flwvg")
+occluder_light_mask = 4
+
+[node name="LightOccluder2D2" type="LightOccluder2D" parent="Visibility/SubViewport/Vision Container/Cone Occluders"]
+rotation = -0.275444
+occluder = SubResource("OccluderPolygon2D_3jhef")
+occluder_light_mask = 4
 
 [node name="Base" type="ColorRect" parent="Visibility/SubViewport"]
-light_mask = 2
+light_mask = 6
 material = SubResource("ShaderMaterial_frkhe")
 anchors_preset = 15
 anchor_right = 1.0
@@ -167,22 +205,25 @@ update_scale = false
 position = Vector2(415, 214)
 
 [node name="Camera" type="Camera2D" parent="Unoccluded/Camera Wrapper"]
-zoom = Vector2(2, 2)
 script = ExtResource("10_b10nm")
 
 [node name="Lighting" type="Node2D" parent="." node_paths=PackedStringArray("ambient_light", "lights")]
 script = ExtResource("10_133si")
+ambient_light_amount = 0.25
 ambient_light = NodePath("Canvas Modulate")
 lights = [NodePath("Point Light 2D"), NodePath("Point Light 2D2")]
 
 [node name="Canvas Modulate" type="CanvasModulate" parent="Lighting"]
-color = Color(0.25, 0.25, 0.25, 1)
+visible = false
+color = Color(0, 0, 0, 1)
 
 [node name="Point Light 2D" type="PointLight2D" parent="Lighting"]
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_1p5hy")
 texture_scale = 0.3
 script = ExtResource("4_esopp")
+follow_position = true
+follow_rotation = true
 
 [node name="Point Light 2D2" type="PointLight2D" parent="Lighting"]
 position = Vector2(676, 161)
@@ -193,8 +234,8 @@ texture_scale = 0.3
 
 [node name="Foreground" type="SubViewportContainer" parent="."]
 material = SubResource("ShaderMaterial_b10nm")
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 1152.0
+offset_bottom = 648.0
 
 [node name="SubViewport" type="SubViewport" parent="Foreground"]
 disable_3d = true
@@ -202,3 +243,13 @@ transparent_bg = true
 handle_input_locally = false
 size = Vector2i(1152, 648)
 render_target_update_mode = 4
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_8loo1")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
