@@ -42,8 +42,8 @@ func update(input: InputPackage, context: ContextPackage, delta: float) -> void:
 
 	if behavior_string != "okay":
 		if behavior_container.has_behaviour(behavior_string):
-			var new_behavior: Behaviour = behavior_container.get_behaviour_by_name(behavior_string);
-			switch_to(new_behavior, input, context);
+			var new_behaviour: Behaviour = behavior_container.get_behaviour_by_name(behavior_string);
+			switch_to(new_behaviour, input, context);
 
 	if secondary_behaviour_managers.size() > 0:
 		for secondary_manager in secondary_behaviour_managers:

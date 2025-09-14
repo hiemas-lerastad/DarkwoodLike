@@ -6,7 +6,7 @@ uniform float min_alpha = 0.2;
 
 void fragment() {
 	if (enabled) {
-		vec4 mask_colour = texture(MASK_TEXTURE, UV);
+		vec4 mask_colour = texture(MASK_TEXTURE, SCREEN_UV);
 		float alpha = 1.0 - mask_colour.r;
 		//COLOR.rgb = albedo_colour.rgb;
 		if (COLOR.a != 0.0) {

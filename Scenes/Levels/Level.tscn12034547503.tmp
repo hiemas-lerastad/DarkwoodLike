@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://0o1l72ci1u4l"]
+[gd_scene load_steps=29 format=3 uid="uid://0o1l72ci1u4l"]
 
 [ext_resource type="Script" uid="uid://bfbp6wp4bdsxm" path="res://Scripts/Level/LevelManager.gd" id="1_or7tv"]
 [ext_resource type="PackedScene" uid="uid://cyg4r2dongkol" path="res://Scenes/Entities/Villager.tscn" id="2_or7tv"]
@@ -6,7 +6,6 @@
 [ext_resource type="Shader" uid="uid://wh0ft308bcos" path="res://Assets/Shaders/FogOfWarOutput.gdshader" id="3_133si"]
 [ext_resource type="Script" uid="uid://wk1g84wqsnqs" path="res://Scripts/Utility/PlayerFollower.gd" id="4_esopp"]
 [ext_resource type="Shader" uid="uid://bypkkaoqcp2yn" path="res://Assets/Shaders/FogOfWarViewport.gdshader" id="5_b10nm"]
-[ext_resource type="Script" uid="uid://ebjtn75up655" path="res://Scripts/Utility/Visiblity.gd" id="5_umfvy"]
 [ext_resource type="Script" uid="uid://dsa70y5se7mjx" path="res://Scripts/Level/VisionCone.gd" id="6_flwvg"]
 [ext_resource type="PackedScene" uid="uid://c1ltqyfy4bgto" path="res://Scenes/Levels/Objects/Tree.tscn" id="7_3jhef"]
 [ext_resource type="PackedScene" uid="uid://dktp51twu7k5j" path="res://Scenes/Entities/Player.tscn" id="8_nrlyp"]
@@ -16,15 +15,11 @@
 [ext_resource type="Script" uid="uid://dc17sj4t4vnbk" path="res://Scripts/CameraManager.gd" id="10_b10nm"]
 [ext_resource type="Shader" uid="uid://fn0d2pckuvfy" path="res://Assets/Shaders/FogOfWarForeground.gdshader" id="11_esopp"]
 [ext_resource type="Shader" uid="uid://bi2vabbgt0o5t" path="res://Assets/Shaders/FogOfWarOverlay.gdshader" id="15_a1gik"]
-[ext_resource type="Script" uid="uid://bmfntw6chswlw" path="res://Scripts/Utility/TargetFollower.gd" id="17_8loo1"]
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_8loo1"]
-viewport_path = NodePath("Background/SubViewport")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1p5hy"]
 resource_local_to_scene = true
 shader = ExtResource("3_133si")
-shader_parameter/ALBEDO_TEXTURE = SubResource("ViewportTexture_8loo1")
+shader_parameter/ALBEDO_TEXTURE = ExtResource("2_rbpxy")
 shader_parameter/enabled = true
 
 [sub_resource type="Gradient" id="Gradient_bmxlf"]
@@ -84,26 +79,22 @@ shader_parameter/MASK_TEXTURE = SubResource("ViewportTexture_umfvy")
 shader_parameter/enabled = true
 shader_parameter/min_alpha = 0.2
 shader_parameter/weight = 0.8
+shader_parameter/ambient_light_value = 0.2
 
-[node name="Level" type="CanvasLayer" node_paths=PackedStringArray("player", "vision_cone", "player_followers", "background_items_target", "visibility_occluder_target", "foreground_items_target", "occluded_target")]
+[node name="Level" type="CanvasLayer" node_paths=PackedStringArray("player", "vision_cone", "visibility_occluder_target", "foreground_items_target", "occluded_target")]
 process_mode = 1
 layer = 0
 follow_viewport_enabled = true
 script = ExtResource("1_or7tv")
 player = NodePath("Unoccluded/Player")
 vision_cone = NodePath("Visibility/SubViewport/Vision Container/Cone Occluders")
-player_followers = [NodePath("Background"), NodePath("Visibility"), NodePath("Visibility/SubViewport/Vision Container"), NodePath("ColorRect")]
-background_items_target = NodePath("Background/SubViewport/Items")
 visibility_occluder_target = NodePath("Visibility/SubViewport/Occluders")
 foreground_items_target = NodePath("Foreground/SubViewport")
 occluded_target = NodePath("Occluded")
 
-[node name="Background" type="SubViewportContainer" parent="." node_paths=PackedStringArray("target", "statics")]
+[node name="Background" type="SubViewportContainer" parent="."]
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("5_umfvy")
-target = NodePath("../Unoccluded/Player")
-statics = NodePath("SubViewport/Items")
 
 [node name="SubViewport" type="SubViewport" parent="Background"]
 disable_3d = true
@@ -111,26 +102,22 @@ handle_input_locally = false
 size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
-[node name="Items" type="Node2D" parent="Background/SubViewport"]
-
-[node name="TextureRect" type="TextureRect" parent="Background/SubViewport/Items"]
+[node name="TextureRect" type="TextureRect" parent="Background/SubViewport"]
 offset_right = 1152.0
 offset_bottom = 648.0
 texture = ExtResource("2_rbpxy")
 
 [node name="Occluded" type="Node2D" parent="."]
 
-[node name="Villager" parent="Occluded" instance=ExtResource("2_or7tv")]
+[node name="Villager" parent="Occluded" node_paths=PackedStringArray("move_target") instance=ExtResource("2_or7tv")]
 light_mask = 2
 position = Vector2(559, 167)
+move_target = NodePath("../../Unoccluded/Player")
 
-[node name="Visibility" type="SubViewportContainer" parent="." node_paths=PackedStringArray("target", "statics")]
+[node name="Visibility" type="SubViewportContainer" parent="."]
 material = SubResource("ShaderMaterial_1p5hy")
 offset_right = 1152.0
 offset_bottom = 648.0
-script = ExtResource("5_umfvy")
-target = NodePath("../Unoccluded/Player")
-statics = NodePath("SubViewport/Occluders")
 
 [node name="SubViewport" type="SubViewport" parent="Visibility"]
 disable_3d = true
@@ -138,10 +125,10 @@ handle_input_locally = false
 size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
-[node name="Vision Container" type="Node2D" parent="Visibility/SubViewport" node_paths=PackedStringArray("target")]
-position = Vector2(576, 324)
-script = ExtResource("17_8loo1")
-target = NodePath("../../../Unoccluded/Player")
+[node name="Vision Container" type="Node2D" parent="Visibility/SubViewport"]
+position = Vector2(408, 280)
+script = ExtResource("4_esopp")
+follow_position = true
 follow_rotation = true
 
 [node name="Vision" type="PointLight2D" parent="Visibility/SubViewport/Vision Container"]
@@ -223,7 +210,7 @@ script = ExtResource("10_b10nm")
 
 [node name="Lighting" type="Node2D" parent="." node_paths=PackedStringArray("ambient_light", "lights")]
 script = ExtResource("10_133si")
-ambient_light_amount = 0.25
+ambient_light_amount = 0.3
 ambient_light = NodePath("Canvas Modulate")
 lights = [NodePath("Point Light 2D"), NodePath("Point Light 2D2")]
 
@@ -236,8 +223,6 @@ shadow_enabled = true
 texture = SubResource("GradientTexture2D_1p5hy")
 texture_scale = 0.3
 script = ExtResource("4_esopp")
-follow_position = true
-follow_rotation = true
 
 [node name="Point Light 2D2" type="PointLight2D" parent="Lighting"]
 position = Vector2(676, 161)
@@ -248,8 +233,8 @@ texture_scale = 0.3
 
 [node name="Foreground" type="SubViewportContainer" parent="."]
 material = SubResource("ShaderMaterial_b10nm")
-offset_right = 1152.0
-offset_bottom = 648.0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="SubViewport" type="SubViewport" parent="Foreground"]
 disable_3d = true
@@ -258,16 +243,22 @@ handle_input_locally = false
 size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
-[node name="ColorRect" type="ColorRect" parent="." node_paths=PackedStringArray("target")]
+[node name="ColorRect" type="ColorRect" parent="."]
+light_mask = 0
+z_index = 5
 material = SubResource("ShaderMaterial_8loo1")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = -324.0
+offset_right = 576.0
+offset_bottom = 324.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-script = ExtResource("17_8loo1")
-target = NodePath("../Unoccluded/Player")
+script = ExtResource("4_esopp")
 follow_position = true
-centered = true

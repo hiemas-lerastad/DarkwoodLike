@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bpcp71cnr1lvj"]
+[gd_scene load_steps=7 format=3 uid="uid://bpcp71cnr1lvj"]
 
 [ext_resource type="Script" uid="uid://di3au8efk3x2r" path="res://Scripts/Level/ObjectLayerManager.gd" id="1_ug10f"]
 [ext_resource type="Texture2D" uid="uid://cxenfiyrhnaya" path="res://Assets/Textures/WallTest.png" id="2_mlyfr"]
+[ext_resource type="Script" uid="uid://bmfntw6chswlw" path="res://Scripts/Utility/TargetFollower.gd" id="3_mlyfr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hhop1"]
 size = Vector2(66, 584)
@@ -28,6 +29,10 @@ shape = SubResource("RectangleShape2D_hhop1")
 visible = false
 occluder = SubResource("OccluderPolygon2D_ug10f")
 
-[node name="Visibility Occluder" type="LightOccluder2D" parent="."]
+[node name="Visibility Occluder" type="LightOccluder2D" parent="." node_paths=PackedStringArray("target")]
 occluder = SubResource("OccluderPolygon2D_mlyfr")
 occluder_light_mask = 6
+script = ExtResource("3_mlyfr")
+target = NodePath("..")
+follow_position = true
+follow_rotation = true

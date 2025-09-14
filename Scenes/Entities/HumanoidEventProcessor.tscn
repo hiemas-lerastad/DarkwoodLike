@@ -1,15 +1,17 @@
-[gd_scene load_steps=11 format=3 uid="uid://b75glcsy5olb7"]
+[gd_scene load_steps=13 format=3 uid="uid://b75glcsy5olb7"]
 
 [ext_resource type="Script" uid="uid://b4uefw7a6u4lv" path="res://Scripts/Entity/State/EventProcessor.gd" id="1_us4oy"]
 [ext_resource type="Script" uid="uid://bpxjykthqo557" path="res://Scripts/Entity/State/BehaviourManager.gd" id="2_06j4y"]
 [ext_resource type="Script" uid="uid://bv3nq0i0ji3vo" path="res://Scripts/Entity/State/BehaviourContainer.gd" id="3_btg84"]
 [ext_resource type="Script" uid="uid://ceirc118mrp6y" path="res://Scripts/Entity/Humanoid/Primary/Behaviours/HumanoidPrimaryIdleBehaviour.gd" id="4_1hfa7"]
+[ext_resource type="Script" uid="uid://bqfdnm1k1rsls" path="res://Scripts/Entity/Humanoid/Primary/Behaviours/HumanoidPrimaryMeleeAttackBehaviour.gd" id="5_1jvqx"]
 [ext_resource type="Script" uid="uid://chqetey8ldloe" path="res://Scripts/Entity/State/ActionContainer.gd" id="5_klvgc"]
 [ext_resource type="Script" uid="uid://bjfor1yjhd5kp" path="res://Scripts/Entity/Humanoid/Primary/Actions/HumanoidPrimaryAimAction.gd" id="6_bvq00"]
 [ext_resource type="Script" uid="uid://blce2qdl0b0pu" path="res://Scripts/Entity/Humanoid/Primary/Actions/HumanoidPrimaryIdleAction.gd" id="6_n25lv"]
 [ext_resource type="Script" uid="uid://dv6goh5j6lomh" path="res://Scripts/Entity/Humanoid/Movement/Behaviours/HumanoidMovementJogBehaviour.gd" id="7_a3002"]
 [ext_resource type="Script" uid="uid://copej88emwetc" path="res://Scripts/Entity/Humanoid/Movement/Actions/HumanoidMovementIdleAction.gd" id="8_cajuy"]
 [ext_resource type="Script" uid="uid://ceu6eommumqbl" path="res://Scripts/Entity/Humanoid/Movement/Actions/HumanoidMovementJogAction.gd" id="9_54cvs"]
+[ext_resource type="Script" uid="uid://dh5b1quoqhofg" path="res://Scripts/Entity/Humanoid/Primary/Actions/HumanoidPrimaryAxeSwingAction.gd" id="9_aljbk"]
 
 [node name="Humanoid Event Processor" type="Node" node_paths=PackedStringArray("primary_behaviour_manager")]
 script = ExtResource("1_us4oy")
@@ -31,6 +33,11 @@ script = ExtResource("4_1hfa7")
 behaviour_string = "idle"
 metadata/_custom_type_script = "uid://ceirc118mrp6y"
 
+[node name="Humanoid Primary Melee Attack Behaviour" type="Node" parent="Primary Behaviour Manager/Primary Behaviour Container"]
+script = ExtResource("5_1jvqx")
+behaviour_string = "melee"
+metadata/_custom_type_script = "uid://bqfdnm1k1rsls"
+
 [node name="Primary Action Container" type="Node" parent="Primary Behaviour Manager"]
 script = ExtResource("5_klvgc")
 
@@ -43,6 +50,11 @@ metadata/_custom_type_script = "uid://bjfor1yjhd5kp"
 script = ExtResource("6_n25lv")
 action_name = "aim"
 metadata/_custom_type_script = "uid://blce2qdl0b0pu"
+
+[node name="Humanoid Primary Axe Swing Action" type="Node" parent="Primary Behaviour Manager/Primary Action Container"]
+script = ExtResource("9_aljbk")
+action_name = "axe swing"
+metadata/_custom_type_script = "uid://dh5b1quoqhofg"
 
 [node name="Movement Behaviour Manager" type="Node" parent="." node_paths=PackedStringArray("behavior_container", "actions_container", "current_behaviour")]
 script = ExtResource("2_06j4y")

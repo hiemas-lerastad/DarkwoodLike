@@ -5,12 +5,11 @@ uniform sampler2D MASK_TEXTURE;
 uniform sampler2D SCREEN_TEXTURE: hint_screen_texture;
 uniform bool enabled = false;
 uniform float min_alpha = 0.2;
-uniform float weight: hint_range(0.0, 1.0, 0.1) = 0.2;
-uniform float ambient_light_value: hint_range(0.0, 1.0, 0.1) = 0.2;
+uniform float weight: hint_range(0.0, 1.0, 0.1) = 0.1;
 
 void fragment() {
 	if (enabled) {
-		vec4 mask_colour = texture(MASK_TEXTURE, UV);
+		vec4 mask_colour = texture(MASK_TEXTURE, SCREEN_UV);
 		float alpha = 1.0 - mask_colour.r;
 
 		COLOR = texture(SCREEN_TEXTURE, SCREEN_UV);

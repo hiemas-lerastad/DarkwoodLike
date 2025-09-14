@@ -4,6 +4,7 @@ extends Node;
 @export var input_gatherer: InputGatherer;
 @export var context_gatherer: ContextGatherer;
 @export var event_processor: EventProcessor;
+@export var animation_player: AnimationPlayer;
 
 func _ready() -> void:
 	pass;

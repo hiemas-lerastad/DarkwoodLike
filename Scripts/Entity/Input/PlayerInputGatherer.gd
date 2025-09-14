@@ -42,6 +42,9 @@ func gather_input() -> InputPackage:
 	if Input.is_action_pressed("interact_secondary"):
 		new_input.actions.append("aim");
 
+	if Input.is_action_just_pressed("action_attack"):
+		new_input.actions.append("melee");
+
 	new_input.target_position = entity.get_global_mouse_position();
 
 	if mouse_event:

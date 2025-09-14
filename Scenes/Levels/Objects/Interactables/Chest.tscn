@@ -6,3 +6,4 @@
 [node name="Chest" instance=ExtResource("1_kwnoh")]
 id = "chest"
 data = ExtResource("2_k88t0")
+trigger = "ui_action_interact_tertiary"
